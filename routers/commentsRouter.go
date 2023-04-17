@@ -7,7 +7,7 @@ import (
 
 func init() {
 
-    beego.GlobalControllerRouter["go-car-rental/controllers:ObjectController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:ObjectController"],
+    beego.GlobalControllerRouter["go-car-rental/controllers:CarController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:CarController"],
         beego.ControllerComments{
             Method: "Post",
             Router: `/`,
@@ -16,7 +16,7 @@ func init() {
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["go-car-rental/controllers:ObjectController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:ObjectController"],
+    beego.GlobalControllerRouter["go-car-rental/controllers:CarController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:CarController"],
         beego.ControllerComments{
             Method: "GetAll",
             Router: `/`,
@@ -25,28 +25,28 @@ func init() {
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["go-car-rental/controllers:ObjectController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:ObjectController"],
+    beego.GlobalControllerRouter["go-car-rental/controllers:CarController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:CarController"],
         beego.ControllerComments{
-            Method: "Get",
-            Router: `/:objectId`,
+            Method: "GetOne",
+            Router: `/:id`,
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["go-car-rental/controllers:ObjectController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:ObjectController"],
+    beego.GlobalControllerRouter["go-car-rental/controllers:CarController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:CarController"],
         beego.ControllerComments{
             Method: "Put",
-            Router: `/:objectId`,
+            Router: `/:id`,
             AllowHTTPMethods: []string{"put"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["go-car-rental/controllers:ObjectController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:ObjectController"],
+    beego.GlobalControllerRouter["go-car-rental/controllers:CarController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:CarController"],
         beego.ControllerComments{
             Method: "Delete",
-            Router: `/:objectId`,
+            Router: `/:id`,
             AllowHTTPMethods: []string{"delete"},
             MethodParams: param.Make(),
             Filters: nil,

@@ -15,45 +15,86 @@
     },
     "basePath": "/v1",
     "paths": {
-        "/object/": {
+        "/car/": {
             "get": {
                 "tags": [
-                    "object"
+                    "car"
                 ],
-                "description": "get all objects\n\u003cbr\u003e",
-                "operationId": "ObjectController.GetAll",
+                "description": "get Car\n\u003cbr\u003e",
+                "operationId": "CarController.GetAll",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "query",
+                        "description": "Filter. e.g. col1:v1,col2:v2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "fields",
+                        "description": "Fields returned. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortby",
+                        "description": "Sorted-by fields. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "order",
+                        "description": "Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Limit the size of result set. Must be an integer",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "Start position of result set. Must be an integer",
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/models.Object"
+                            "$ref": "#/definitions/models.Car"
                         }
                     },
                     "403": {
-                        "description": ":objectId is empty"
+                        "description": ""
                     }
                 }
             },
             "post": {
                 "tags": [
-                    "object"
+                    "car"
                 ],
-                "description": "create object\n\u003cbr\u003e",
-                "operationId": "ObjectController.Create",
+                "description": "create Car\n\u003cbr\u003e",
+                "operationId": "CarController.Create",
                 "parameters": [
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "The object content",
+                        "description": "body for Car content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Object"
+                            "$ref": "#/definitions/models.Car"
                         }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "{string} models.Object.Id"
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Car"
+                        }
                     },
                     "403": {
                         "description": "body is empty"
@@ -61,18 +102,18 @@
                 }
             }
         },
-        "/object/{objectId}": {
+        "/car/{id}": {
             "get": {
                 "tags": [
-                    "object"
+                    "car"
                 ],
-                "description": "find object by objectid\n\u003cbr\u003e",
-                "operationId": "ObjectController.Get",
+                "description": "get Car by id\n\u003cbr\u003e",
+                "operationId": "CarController.GetOne",
                 "parameters": [
                     {
                         "in": "path",
-                        "name": "objectId",
-                        "description": "the objectid you want to get",
+                        "name": "id",
+                        "description": "The key for staticblock",
                         "required": true,
                         "type": "string"
                     }
@@ -81,35 +122,35 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/models.Object"
+                            "$ref": "#/definitions/models.Car"
                         }
                     },
                     "403": {
-                        "description": ":objectId is empty"
+                        "description": ":id is empty"
                     }
                 }
             },
             "put": {
                 "tags": [
-                    "object"
+                    "car"
                 ],
-                "description": "update the object\n\u003cbr\u003e",
-                "operationId": "ObjectController.Update",
+                "description": "update the Car\n\u003cbr\u003e",
+                "operationId": "CarController.Put",
                 "parameters": [
                     {
                         "in": "path",
-                        "name": "objectId",
-                        "description": "The objectid you want to update",
+                        "name": "id",
+                        "description": "The id you want to update",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "The body",
+                        "description": "body for Car content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Object"
+                            "$ref": "#/definitions/models.Car"
                         }
                     }
                 ],
@@ -117,25 +158,25 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/models.Object"
+                            "$ref": "#/definitions/models.Car"
                         }
                     },
                     "403": {
-                        "description": ":objectId is empty"
+                        "description": ":id is not int"
                     }
                 }
             },
             "delete": {
                 "tags": [
-                    "object"
+                    "car"
                 ],
-                "description": "delete the object\n\u003cbr\u003e",
-                "operationId": "ObjectController.Delete",
+                "description": "delete the Car\n\u003cbr\u003e",
+                "operationId": "CarController.Delete",
                 "parameters": [
                     {
                         "in": "path",
-                        "name": "objectId",
-                        "description": "The objectId you want to delete",
+                        "name": "id",
+                        "description": "The id you want to delete",
                         "required": true,
                         "type": "string"
                     }
@@ -145,7 +186,7 @@
                         "description": "{string} delete success!"
                     },
                     "403": {
-                        "description": "objectId is empty"
+                        "description": "id is empty"
                     }
                 }
             }
@@ -331,19 +372,19 @@
         }
     },
     "definitions": {
-        "models.Object": {
-            "title": "Object",
+        "models.Car": {
+            "title": "Car",
             "type": "object",
             "properties": {
-                "ObjectId": {
-                    "type": "string"
-                },
-                "PlayerName": {
-                    "type": "string"
-                },
-                "Score": {
+                "Id": {
                     "type": "integer",
                     "format": "int64"
+                },
+                "Make": {
+                    "type": "string"
+                },
+                "Model": {
+                    "type": "string"
                 }
             }
         },
@@ -387,8 +428,8 @@
     },
     "tags": [
         {
-            "name": "object",
-            "description": "Operations about object\n"
+            "name": "car",
+            "description": "CarController operations for Car\n"
         },
         {
             "name": "user",
