@@ -20,9 +20,16 @@ func main() {
 	profile, _ := cfg.String("runmode")
 	logs.Info("Using profile:", profile)
 
-	if profile == "dev" || profile == "test" {
+	beego.SetStaticPath("/", "views/static")
+
+	if cfg.DefaultBool("EnableDocs", false) {
 		beego.SetStaticPath("/swagger", "/swagger")
-		beego.SetStaticPath("/", "views/static")
+	}
+
+	if cfg.DefaultBool("EnableAdmin", false) {
+		beego.BConfig.Listen.EnableAdmin = true
+		beego.BConfig.Listen.AdminAddr = "localhost"
+		beego.BConfig.Listen.AdminPort = 8088
 	}
 
 	beego.Run()
