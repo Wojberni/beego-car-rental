@@ -1,1 +1,0 @@
-/home/wojciech/GoProjects/go-car-rental/views/cars/edit.tpl
