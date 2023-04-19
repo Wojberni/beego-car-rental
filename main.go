@@ -32,5 +32,9 @@ func main() {
 		beego.BConfig.Listen.AdminPort = 8088
 	}
 
+	beego.BConfig.CopyRequestBody = cfg.DefaultBool("copyrequestbody", false)
+
+	// TODO: load config from app.conf files
+
 	beego.Run()
 }

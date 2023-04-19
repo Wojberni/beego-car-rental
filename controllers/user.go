@@ -1,8 +1,9 @@
 package controllers
 
 import (
-	"go-car-rental/models"
 	"encoding/json"
+	"fmt"
+	"go-car-rental/models"
 
 	beego "github.com/beego/beego/v2/server/web"
 )
@@ -14,15 +15,23 @@ type UserController struct {
 
 // @Title CreateUser
 // @Description create users
-// @Param	body		body 	models.User	true		"body for user content"
-// @Success 200 {int} models.User.Id
-// @Failure 403 body is empty
+// @Param	body	 body	models.User	true	"body for user content"
+// @Success 200 {string} user was created
+// @Failure 403 error while creating user
 // @router / [post]
 func (u *UserController) Post() {
 	var user models.User
+	var message string
 	json.Unmarshal(u.Ctx.Input.RequestBody, &user)
-	uid := models.AddUser(user)
-	u.Data["json"] = map[string]string{"uid": uid}
+	// todo: move validation inside model
+	if user.Email == "" || user.Password == "" || user.Username == "" {
+		message = "Data missing, please fill all data!"
+	} else {
+		uid := models.AddUser(user)
+		message = fmt.Sprintf("Created user with Uuid %s", uid)
+	}
+
+	u.Data["json"] = map[string]string{"message": message}
 	u.ServeJSON()
 }
 
@@ -38,7 +47,7 @@ func (u *UserController) GetAll() {
 
 // @Title Get
 // @Description get user by uid
-// @Param	uid		path 	string	true		"The key for staticblock"
+// @Param	uid		path	string	true		"The key for staticblock"
 // @Success 200 {object} models.User
 // @Failure 403 :uid is empty
 // @router /:uid [get]
@@ -85,8 +94,13 @@ func (u *UserController) Put() {
 // @router /:uid [delete]
 func (u *UserController) Delete() {
 	uid := u.GetString(":uid")
-	models.DeleteUser(uid)
-	u.Data["json"] = "delete success!"
+	var message string
+	if models.DeleteUser(uid) {
+		message = fmt.Sprintf("Deleted user: %s", uid)
+	} else {
+		message = fmt.Sprintf("User not found: %s", uid)
+	}
+	u.Data["json"] = message
 	u.ServeJSON()
 }
 
@@ -108,12 +122,31 @@ func (u *UserController) Login() {
 	u.ServeJSON()
 }
 
+// @Title Register
+// @Description Register user into the system
+// @Param	username		query 	string	true		"The username for login"
+// @Param	password		query 	string	true		"The password for login"
+// @Param	email		query 	string	true		"The email for login"
+// @Success 200 {string} register success
+// @Failure 403 empty fields
+// @router /register [get]
+func (u *UserController) Register() {
+	username := u.GetString("username")
+	password := u.GetString("password")
+	email := u.GetString("email")
+	if models.Register(username, password, email) {
+		u.Data["json"] = "Register success!"
+	} else {
+		u.Data["json"] = "Register failure! Fill all fields!"
+	}
+	u.ServeJSON()
+}
+
 // @Title logout
 // @Description Logs out current logged in user session
 // @Success 200 {string} logout success
 // @router /logout [get]
 func (u *UserController) Logout() {
-	u.Data["json"] = "logout success"
+	u.Data["json"] = "Logout success"
 	u.ServeJSON()
 }
-
