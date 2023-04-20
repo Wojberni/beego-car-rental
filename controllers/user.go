@@ -13,7 +13,6 @@ type UserController struct {
 	beego.Controller
 }
 
-// @APIVersion 1.0.0
 // @Title CreateUser
 // @Description Create user
 // @Param 	body 	body 	models.User 	true 	"Body for user content"
@@ -37,7 +36,6 @@ func (u *UserController) Post() {
 	u.ServeJSON()
 }
 
-// @APIVersion 1.0.0
 // @Title GetAll
 // @Description Get all Users
 // @Success 200 {object} models.User
@@ -50,7 +48,6 @@ func (u *UserController) GetAll() {
 	u.ServeJSON()
 }
 
-// @APIVersion 1.0.0
 // @Title Get
 // @Description Get user by uuid
 // @Param 	uid 	path 	string 	true 	"The uuid of user to get"
@@ -71,7 +68,6 @@ func (u *UserController) Get() {
 	u.ServeJSON()
 }
 
-// @APIVersion 1.0.0
 // @Title Update
 // @Description Update the user
 // @Param 	uuid 	path 	string 			true 	"The uuid you want to update"
@@ -95,7 +91,6 @@ func (u *UserController) Put() {
 	u.ServeJSON()
 }
 
-// @APIVersion 1.0.0
 // @Title Delete
 // @Description delete the user
 // @Param	uid		path 	string	true		"The uid you want to delete"
@@ -115,7 +110,6 @@ func (u *UserController) Delete() {
 	u.ServeJSON()
 }
 
-// @APIVersion 1.0.0
 // @Title Login
 // @Description Logs user into the system
 // @Param	username		query 	string	true		"The username for login"
@@ -135,7 +129,6 @@ func (u *UserController) Login() {
 	u.ServeJSON()
 }
 
-// @APIVersion 1.0.0
 // @Title Register
 // @Description Register user into the system
 // @Param	username		query 	string	true		"The username for register"
@@ -157,7 +150,6 @@ func (u *UserController) Register() {
 	u.ServeJSON()
 }
 
-// @APIVersion 1.0.0
 // @Title logout
 // @Description Logs out current logged in user session
 // @Success 200 {string} Logout success!
