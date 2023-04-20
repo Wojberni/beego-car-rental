@@ -17,70 +17,64 @@ paths:
       tags:
       - user
       description: |-
-        get all Users
+        Get all Users
         <br>
       operationId: UserController.GetAll
+      consumes:
+      - application/json
+      produces:
+      - application/json
       responses:
         "200":
           description: ""
           schema:
             $ref: '#/definitions/models.User'
+        "404":
+          description: '{string} Error retrieving data, please try again later!'
     post:
       tags:
       - user
       description: |-
-        create users
+        Create user
         <br>
       operationId: UserController.CreateUser
+      consumes:
+      - application/json
+      produces:
+      - application/json
       parameters:
       - in: body
         name: body
-        description: body for user content
+        description: Body for user content
         required: true
         schema:
           $ref: '#/definitions/models.User'
       responses:
         "200":
-          description: '{string} user was created'
+          description: '{string} Created user with Uuid!'
         "403":
-          description: error while creating user
+          description: '{string} Data missing, please fill all data!'
   /user/{uid}:
-    get:
-      tags:
-      - user
-      description: |-
-        get user by uid
-        <br>
-      operationId: UserController.Get
-      parameters:
-      - in: path
-        name: uid
-        description: The key for staticblock
-        required: true
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.User'
-        "403":
-          description: :uid is empty
     put:
       tags:
       - user
       description: |-
-        update the user
+        Update the user
         <br>
       operationId: UserController.Update
+      consumes:
+      - application/json
+      produces:
+      - application/json
       parameters:
       - in: path
-        name: uid
-        description: The uid you want to update
+        name: uuid
+        description: The uuid you want to update
         required: true
         type: string
       - in: body
         name: body
-        description: body for user content
+        description: Body for user content
         required: true
         schema:
           $ref: '#/definitions/models.User'
@@ -90,7 +84,7 @@ paths:
           schema:
             $ref: '#/definitions/models.User'
         "403":
-          description: :uid is not int
+          description: '{string} Uuid is not int!'
     delete:
       tags:
       - user
@@ -98,6 +92,10 @@ paths:
         delete the user
         <br>
       operationId: UserController.Delete
+      consumes:
+      - application/json
+      produces:
+      - application/json
       parameters:
       - in: path
         name: uid
@@ -106,9 +104,34 @@ paths:
         type: string
       responses:
         "200":
-          description: '{string} delete success!'
+          description: '{string} Deleted user: uuid'
         "403":
-          description: uid is empty
+          description: '{string} User not found: uuid'
+  /user/{uuid}:
+    get:
+      tags:
+      - user
+      description: |-
+        Get user by uuid
+        <br>
+      operationId: UserController.Get
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: uid
+        description: The uuid of user to get
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.User'
+        "403":
+          description: '{string} Uuid is empty!'
   /user/login:
     get:
       tags:
@@ -117,6 +140,10 @@ paths:
         Logs user into the system
         <br>
       operationId: UserController.Login
+      consumes:
+      - application/json
+      produces:
+      - application/json
       parameters:
       - in: query
         name: username
@@ -130,9 +157,9 @@ paths:
         type: string
       responses:
         "200":
-          description: '{string} login success'
+          description: '{string} Login success!'
         "403":
-          description: user not exist
+          description: '{string} User does not exist!'
   /user/logout:
     get:
       tags:
@@ -141,9 +168,13 @@ paths:
         Logs out current logged in user session
         <br>
       operationId: UserController.logout
+      consumes:
+      - application/json
+      produces:
+      - application/json
       responses:
         "200":
-          description: '{string} logout success'
+          description: '{string} Logout success!'
   /user/register:
     get:
       tags:
@@ -152,27 +183,31 @@ paths:
         Register user into the system
         <br>
       operationId: UserController.Register
+      consumes:
+      - application/json
+      produces:
+      - application/json
       parameters:
       - in: query
         name: username
-        description: The username for login
+        description: The username for register
         required: true
         type: string
       - in: query
         name: password
-        description: The password for login
+        description: The password for register
         required: true
         type: string
       - in: query
         name: email
-        description: The email for login
+        description: The email for register
         required: true
         type: string
       responses:
         "200":
-          description: '{string} register success'
+          description: '{string} Register success!'
         "403":
-          description: empty fields
+          description: '{string} Register failure! Fill all fields!'
 definitions:
   models.User:
     title: User
