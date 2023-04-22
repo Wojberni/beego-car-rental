@@ -100,7 +100,7 @@
                         "description": "Body of user login info",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UserLoginDto"
+                            "$ref": "#/definitions/dtos.UserLoginDto"
                         }
                     }
                 ],
@@ -151,10 +151,10 @@
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "Body of user info",
+                        "description": "Body of user register info",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/dtos.UserRegisterDto"
                         }
                     }
                 ],
@@ -184,7 +184,7 @@
                 "parameters": [
                     {
                         "in": "path",
-                        "name": "uid",
+                        "name": "uuid",
                         "description": "The uuid of user to get",
                         "required": true,
                         "type": "string"
@@ -259,7 +259,7 @@
                 "parameters": [
                     {
                         "in": "path",
-                        "name": "uid",
+                        "name": "uuid",
                         "description": "The uid you want to delete",
                         "required": true,
                         "type": "string"
@@ -277,6 +277,33 @@
         }
     },
     "definitions": {
+        "dtos.UserLoginDto": {
+            "title": "UserLoginDto",
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "dtos.UserRegisterDto": {
+            "title": "UserRegisterDto",
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "models.User": {
             "title": "User",
             "type": "object",
@@ -291,18 +318,6 @@
                     "type": "string"
                 },
                 "uuid": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.UserLoginDto": {
-            "title": "UserLoginDto",
-            "type": "object",
-            "properties": {
-                "password": {
-                    "type": "string"
-                },
-                "username": {
                     "type": "string"
                 }
             }

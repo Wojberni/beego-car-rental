@@ -112,7 +112,7 @@ func (u *UserController) Delete() {
 
 // @Title Login
 // @Description Logs user into the system
-// @Param 	body 	body 	models.UserLoginDto 	true 	"Body of user login info"
+// @Param 	body 	body 	dtos.UserLoginDto 	true 	"Body of user login info"
 // @Success 200 {string} Login success!
 // @Failure 403 {string} User does not exist!
 // @Accept json
@@ -132,7 +132,7 @@ func (u *UserController) Login() {
 
 // @Title Register
 // @Description Register user into the system
-// @Param 	body 	body 	models.User 	true 	"Body of user info"
+// @Param 	body 	body 	dtos.UserRegisterDto 	true 	"Body of user register info"
 // @Success 200 {string} Register success!
 // @Failure 403 {string} Register failure! Fill all fields!
 // @Accept json
