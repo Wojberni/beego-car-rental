@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"go-car-rental/dtos"
 	"go-car-rental/models"
 
 	beego "github.com/beego/beego/v2/server/web"
@@ -24,11 +25,10 @@ func (u *UserController) Post() {
 	var user models.User
 	var message string
 	json.Unmarshal(u.Ctx.Input.RequestBody, &user)
-	// todo: move validation inside model
-	if user.Email == "" || user.Password == "" || user.Username == "" {
-		message = "Data missing, please fill all data!"
+	uid := models.AddUser(user)
+	if uid == "" {
+		message = "Error creating user!"
 	} else {
-		uid := models.AddUser(user)
 		message = fmt.Sprintf("Created user with Uuid %s", uid)
 	}
 
@@ -50,7 +50,7 @@ func (u *UserController) GetAll() {
 
 // @Title Get
 // @Description Get user by uuid
-// @Param 	uid 	path 	string 	true 	"The uuid of user to get"
+// @Param 	uuid 	path 	string 	true 	"The uuid of user to get"
 // @Success 200 {object} models.User
 // @Failure 403 {string} Uuid is empty!
 // @Accept json
@@ -60,7 +60,7 @@ func (u *UserController) Get() {
 	if uid != "" {
 		user, err := models.GetUser(uid)
 		if err != nil {
-			u.Data["json"] = err.Error()
+			u.Data["json"] = map[string]string{"message": err.Error()}
 		} else {
 			u.Data["json"] = user
 		}
@@ -75,15 +75,15 @@ func (u *UserController) Get() {
 // @Success 200 {object} models.User
 // @Failure 403 {string} Uuid is not int!
 // @Accept json
-// @router /:uid [put]
+// @router /:uuid [put]
 func (u *UserController) Put() {
-	uid := u.GetString(":uid")
+	uid := u.GetString(":uuid")
 	if uid != "" {
 		var user models.User
 		json.Unmarshal(u.Ctx.Input.RequestBody, &user)
 		uu, err := models.UpdateUser(uid, &user)
 		if err != nil {
-			u.Data["json"] = err.Error()
+			u.Data["json"] = map[string]string{"message": err.Error()}
 		} else {
 			u.Data["json"] = uu
 		}
@@ -93,69 +93,69 @@ func (u *UserController) Put() {
 
 // @Title Delete
 // @Description delete the user
-// @Param	uid		path 	string	true		"The uid you want to delete"
+// @Param	uuid		path 	string	true		"The uid you want to delete"
 // @Success 200 {string} Deleted user: uuid
 // @Failure 403 {string} User not found: uuid
 // @Accept json
-// @router /:uid [delete]
+// @router /:uuid [delete]
 func (u *UserController) Delete() {
-	uid := u.GetString(":uid")
+	uid := u.GetString(":uuid")
 	var message string
 	if models.DeleteUser(uid) {
 		message = fmt.Sprintf("Deleted user: %s", uid)
 	} else {
 		message = fmt.Sprintf("User not found: %s", uid)
 	}
-	u.Data["json"] = message
+	u.Data["json"] = map[string]string{"message": message}
 	u.ServeJSON()
 }
 
 // @Title Login
 // @Description Logs user into the system
-// @Param	username		query 	string	true		"The username for login"
-// @Param	password		query 	string	true		"The password for login"
+// @Param 	body 	body 	models.UserLoginDto 	true 	"Body of user login info"
 // @Success 200 {string} Login success!
 // @Failure 403 {string} User does not exist!
 // @Accept json
-// @router /login [get]
+// @router /login [post]
 func (u *UserController) Login() {
-	username := u.GetString("username")
-	password := u.GetString("password")
-	if models.Login(username, password) {
-		u.Data["json"] = "Login success!"
+	var userLogin dtos.UserLoginDto
+	var message string
+	json.Unmarshal(u.Ctx.Input.RequestBody, &userLogin)
+	if models.Login(userLogin) {
+		message = fmt.Sprintf("Login success for user %v!", userLogin.Username)
 	} else {
-		u.Data["json"] = "User does not exist!"
+		message = "User does not exist!"
 	}
+	u.Data["json"] = map[string]string{"message": message}
 	u.ServeJSON()
 }
 
 // @Title Register
 // @Description Register user into the system
-// @Param	username		query 	string	true		"The username for register"
-// @Param	password		query 	string	true		"The password for register"
-// @Param	email		query 	string	true		"The email for register"
+// @Param 	body 	body 	models.User 	true 	"Body of user info"
 // @Success 200 {string} Register success!
 // @Failure 403 {string} Register failure! Fill all fields!
 // @Accept json
-// @router /register [get]
+// @router /register [post]
 func (u *UserController) Register() {
-	username := u.GetString("username")
-	password := u.GetString("password")
-	email := u.GetString("email")
-	if models.Register(username, password, email) {
-		u.Data["json"] = "Register success!"
+	var user dtos.UserRegisterDto
+	var message string
+	json.Unmarshal(u.Ctx.Input.RequestBody, &user)
+	if models.Register(user) {
+		message = fmt.Sprintf("Register success for user %v!", user.Username)
 	} else {
-		u.Data["json"] = "Register failure! Fill all fields!"
+		message = "Register failure! Fill all fields!"
 	}
+	u.Data["json"] = map[string]string{"message": message}
 	u.ServeJSON()
 }
 
-// @Title logout
+// @Title Logout
 // @Description Logs out current logged in user session
 // @Success 200 {string} Logout success!
 // @Accept json
-// @router /logout [get]
+// @router /logout [post]
 func (u *UserController) Logout() {
-	u.Data["json"] = "Logout success!"
+	u.Data["json"] = map[string]string{"message": "Logout success!"}
 	u.ServeJSON()
 }

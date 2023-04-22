@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"go-car-rental/dtos"
 
 	"github.com/google/uuid"
 )
@@ -26,6 +27,9 @@ type User struct {
 }
 
 func AddUser(u User) string {
+	if u.Email == "" || u.Password == "" || u.Username == "" {
+		return ""
+	}
 	u.Uuid = generateUserUuid()
 	UserList[u.Uuid] = &u
 	return u.Uuid
@@ -55,20 +59,20 @@ func UpdateUser(uuid string, uu *User) (a *User, err error) {
 	return nil, errors.New("User does not exist")
 }
 
-func Login(username, password string) bool {
+func Login(userCreds dtos.UserLoginDto) bool {
 	for _, u := range UserList {
-		if u.Username == username && u.Password == password {
+		if u.Username == userCreds.Username && u.Password == userCreds.Password {
 			return true
 		}
 	}
 	return false
 }
 
-func Register(username, password, email string) bool {
-	if username == "" || password == "" || email == "" {
+func Register(user dtos.UserRegisterDto) bool {
+	if user.Username == "" || user.Password == "" || user.Email == "" {
 		return false
 	}
-	uu := User{generateUserUuid(), username, password, email}
+	uu := User{generateUserUuid(), user.Username, user.Password, user.Email}
 	UserList[uu.Uuid] = &uu
 	return true
 }

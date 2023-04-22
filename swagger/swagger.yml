@@ -60,7 +60,31 @@ paths:
           description: '{string} Created user with Uuid!'
         "403":
           description: '{string} Data missing, please fill all data!'
-  /user/{uid}:
+  /user/{uuid}:
+    get:
+      tags:
+      - user
+      description: |-
+        Get user by uuid
+        <br>
+      operationId: UserController.Get
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: uid
+        description: The uuid of user to get
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.User'
+        "403":
+          description: '{string} Uuid is empty!'
     put:
       tags:
       - user
@@ -113,33 +137,8 @@ paths:
           description: '{string} Deleted user: uuid'
         "403":
           description: '{string} User not found: uuid'
-  /user/{uuid}:
-    get:
-      tags:
-      - user
-      description: |-
-        Get user by uuid
-        <br>
-      operationId: UserController.Get
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - in: path
-        name: uid
-        description: The uuid of user to get
-        required: true
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.User'
-        "403":
-          description: '{string} Uuid is empty!'
   /user/login:
-    get:
+    post:
       tags:
       - user
       description: |-
@@ -151,29 +150,25 @@ paths:
       produces:
       - application/json
       parameters:
-      - in: query
-        name: username
-        description: The username for login
+      - in: body
+        name: body
+        description: Body of user login info
         required: true
-        type: string
-      - in: query
-        name: password
-        description: The password for login
-        required: true
-        type: string
+        schema:
+          $ref: '#/definitions/models.UserLoginDto'
       responses:
         "200":
           description: '{string} Login success!'
         "403":
           description: '{string} User does not exist!'
   /user/logout:
-    get:
+    post:
       tags:
       - user
       description: |-
         Logs out current logged in user session
         <br>
-      operationId: UserController.logout
+      operationId: UserController.Logout
       consumes:
       - application/json
       produces:
@@ -182,7 +177,7 @@ paths:
         "200":
           description: '{string} Logout success!'
   /user/register:
-    get:
+    post:
       tags:
       - user
       description: |-
@@ -194,21 +189,12 @@ paths:
       produces:
       - application/json
       parameters:
-      - in: query
-        name: username
-        description: The username for register
+      - in: body
+        name: body
+        description: Body of user info
         required: true
-        type: string
-      - in: query
-        name: password
-        description: The password for register
-        required: true
-        type: string
-      - in: query
-        name: email
-        description: The email for register
-        required: true
-        type: string
+        schema:
+          $ref: '#/definitions/models.User'
       responses:
         "200":
           description: '{string} Register success!'
@@ -226,6 +212,14 @@ definitions:
       username:
         type: string
       uuid:
+        type: string
+  models.UserLoginDto:
+    title: UserLoginDto
+    type: object
+    properties:
+      password:
+        type: string
+      username:
         type: string
 tags:
 - name: user
