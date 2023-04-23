@@ -6,7 +6,7 @@ This my sandbox project for learning Golang with Beego framework. I am using bee
 
 ## Installation
 
-After cloning the repository to run the project you must have golang installed on your computer. Recommended version is 18+. Link for Go install: https://go.dev/doc/install
+After cloning the repository to run the project you must have golang installed on your computer. Recommended version is 18+. Link for [Go install](https://go.dev/doc/install). 
 
 (Optional) Now create workspace, so the VSCode can reference the needed dependencies. I found this very useful, when working with VSCode. This will generate a go.work file, where all module names will be stored. When creating a new module just remember to add `go work use $DIRECTORY` to add directory to workspace. Now go into parent directory and run commands given below.
 
@@ -21,14 +21,14 @@ Lastly, go into project directory and run
     go mod tidy
 ```
 
-This will download all the dependencies needed and generate go.sum file. Now we can build and run the server using standard go commands.
+This will download all the dependencies needed and generate `go.sum` file. Now we can build and run the server using standard go commands.
 
 ```bash
     go build main.go
     ./go-car-rental
 ```
 
-As an alternative you can install bee tool and use it to run project. More information on installing bee tool: https://beego.gocn.vip/beego/en-US/developing/bee/. 
+As an alternative you can install bee tool and use it to run project. More information on installing [bee tool](https://beego.gocn.vip/beego/en-US/developing/bee/). 
 
 > Tip: Use `go install` instead of `go get` for newer versions of Golang.
 
@@ -58,7 +58,14 @@ This command will autogenerate docs in `/swagger` directory in your project. Now
 
 ### Dockerizing application
 
-With a command `bee dockerize` you can autogenerate a `Dockerfile` with `docker-compose.yaml`, that you can use to dockerize you app. It can be used as a template from which you can build on your whole app config (e.g. add database and other services).
+With a command `bee dockerize` you can autogenerate a `Dockerfile` with `docker-compose.yaml`, that you can use to dockerize you app. It can be used as a template from which you can build on your whole app config (e.g. add database and other services). Than run:
+
+```bash
+    docker-compose up -d
+    # -d for detached mode run in background
+```
+
+After a minute app and database should be up and running.
 
 ### Autogenerating scaffold, controller, tests, view or model
 
