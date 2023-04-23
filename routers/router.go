@@ -12,7 +12,7 @@
 package routers
 
 import (
-	"go-car-rental/controllers"
+	"beego-car-rental/controllers"
 
 	beego "github.com/beego/beego/v2/server/web"
 )

@@ -1,4 +1,4 @@
-module go-car-rental
+module beego-car-rental
 
 go 1.20
 

@@ -1,8 +1,8 @@
 package models
 
 import (
+	"beego-car-rental/dtos"
 	"errors"
-	"go-car-rental/dtos"
 
 	"github.com/google/uuid"
 )

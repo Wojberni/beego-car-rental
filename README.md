@@ -12,7 +12,7 @@ After cloning the repository to run the project you must have golang installed o
 
 ```bash
     go work init
-    go work use go-car-rental
+    go work use beego-car-rental
 ```
 
 Lastly, go into project directory and run
@@ -25,7 +25,7 @@ This will download all the dependencies needed and generate `go.sum` file. Now w
 
 ```bash
     go build main.go
-    ./go-car-rental
+    ./beego-car-rental
 ```
 
 As an alternative you can install bee tool and use it to run project. More information on installing [bee tool](https://beego.gocn.vip/beego/en-US/developing/bee/). 
@@ -58,7 +58,7 @@ This command will autogenerate docs in `/swagger` directory in your project. Now
 
 ### Dockerizing application
 
-With a command `bee dockerize` you can autogenerate a `Dockerfile` with `docker-compose.yaml`, that you can use to dockerize you app. It can be used as a template from which you can build on your whole app config (e.g. add database and other services). Than run:
+With a command `bee dockerize` you can autogenerate a `Dockerfile` with `docker-compose.yaml`, that you can use to dockerize you app. It can be used as a template for building your whole app config (e.g. add database and other services). Now run:
 
 ```bash
     docker-compose up -d

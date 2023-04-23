@@ -4,7 +4,7 @@
 *.dll
 *.so
 *.dylib
-go-car-rental
+beego-car-rental
 
 # Test binary, built with `go test -c`
 *.test

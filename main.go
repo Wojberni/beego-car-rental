@@ -1,9 +1,9 @@
 package main
 
 import (
-	_ "go-car-rental/routers"
+	_ "beego-car-rental/routers"
 
-	settings "go-car-rental/conf"
+	settings "beego-car-rental/conf"
 
 	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"

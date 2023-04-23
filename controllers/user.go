@@ -1,10 +1,10 @@
 package controllers
 
 import (
+	"beego-car-rental/dtos"
+	"beego-car-rental/models"
 	"encoding/json"
 	"fmt"
-	"go-car-rental/dtos"
-	"go-car-rental/models"
 
 	beego "github.com/beego/beego/v2/server/web"
 )
