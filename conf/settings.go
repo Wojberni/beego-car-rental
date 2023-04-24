@@ -4,29 +4,41 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/beego/beego/v2/client/cache"
+	"github.com/beego/beego/v2/client/orm"
 	"github.com/beego/beego/v2/core/config"
 	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
+	_ "github.com/lib/pq"
+)
+
+var (
+	Profile    string
+	AppVersion string
+	DebugOrm   bool
 )
 
 func LoadSettings() {
+	logs.SetLogger(logs.AdapterConsole)
 
 	cfg, err := config.NewConfig("ini", "conf/app.conf")
 	if err != nil {
 		panic(fmt.Sprintf("Failed to load config file!\nError message: %v", err))
 	}
 
-	profile := cfg.DefaultString("runmode", "dev")
-	logs.Info("Using profile:", profile)
+	Profile := cfg.DefaultString("runmode", "dev")
+	AppVersion := cfg.DefaultString("appversion", "0.0.0")
+	logs.Info("Using profile:", Profile)
+	logs.Info("App version:", AppVersion)
 
 	beego.BConfig.CopyRequestBody = cfg.DefaultBool("copyrequestbody", false)
 	beego.BConfig.WebConfig.DirectoryIndex = cfg.DefaultBool("directoryindex", false)
 	beego.BConfig.WebConfig.AutoRender = cfg.DefaultBool("autorender", true)
 	beego.SetStaticPath("/", "views/static")
 
-	cfgSection, err := cfg.GetSection(profile)
+	cfgSection, err := cfg.GetSection(Profile)
 	if err != nil {
-		logs.Error(fmt.Printf("Invalid profile! You chose :%v, but available are [dev, test, prod]", profile))
+		logs.Error(fmt.Printf("Invalid profile! You chose :%v, but available are [dev, test, prod]", Profile))
 	}
 
 	loadProfileSettings(cfgSection)
@@ -56,5 +68,29 @@ func loadProfileSettings(cfgSection map[string]string) {
 		beego.BConfig.Listen.EnableAdmin = false
 	}
 
-	// todo: register database here with orm
+	if cfgSection["debugorm"] == "true" {
+		DebugOrm = true
+		orm.Debug = true
+	} else {
+		DebugOrm = false
+		orm.Debug = false
+	}
+
+	err := orm.RegisterDriver("postgres", orm.DRPostgres)
+	if err != nil {
+		logs.Error("Error while registering orm driver:", err.Error())
+	}
+	err = orm.RegisterDataBase("default", "postgres", cfgSection["sqlconn"], orm.MaxOpenConnections(10), orm.MaxIdleConnections(5))
+	if err != nil {
+		logs.Error("Error while registering database:", err.Error())
+	}
+	orm.RunCommand()
+	orm.RunSyncdb("default", false, DebugOrm)
+
+	appcache, err := cache.NewCache("memory", `{"interval":360}`)
+	if err != nil {
+		logs.Error("Error while creating new cache:", err.Error())
+	} else {
+		logs.Info("Cache creating successfull:", appcache)
+	}
 }
