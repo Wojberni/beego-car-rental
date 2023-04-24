@@ -6,6 +6,7 @@ require github.com/beego/beego/v2 v2.0.7
 
 require (
 	github.com/google/uuid v1.2.0
+	github.com/lib/pq v1.10.5
 	github.com/smartystreets/goconvey v1.6.4
 )
 

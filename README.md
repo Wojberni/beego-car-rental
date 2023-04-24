@@ -54,6 +54,10 @@ This command will autogenerate docs in `/swagger` directory in your project. Now
 
 ### Database migrations
 
+```bash
+    bee migrate -driver=postgres -conn=postgres://dev:1234@localhost/beego_car_rental_dev?sslmode=disable
+```
+
 // TODO: after test explain more about bee migration tool
 
 ### Dockerizing application
