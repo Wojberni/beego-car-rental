@@ -1,92 +1,61 @@
 package models
 
 import (
-	"beego-car-rental/dtos"
-	"errors"
+	"time"
 
-	"github.com/google/uuid"
-)
-
-var (
-	UserList map[string]*User
+	"github.com/beego/beego/v2/adapter/orm"
 )
 
 func init() {
-	UserList = make(map[string]*User)
-
-	uuid := generateUserUuid()
-	u := User{uuid, "test", "1234", "test@gmail.com"}
-	UserList[uuid] = &u
+	orm.RegisterModel(new(User))
 }
+
+type UserList []User
 
 type User struct {
-	Uuid     string `json:"uuid"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Email    string `json:"email"`
+	Id       int
+	Uuid     string    `orm:"size(32);unique"`
+	Username string    `orm:"size(32)"`
+	Password string    `orm:"size(128)"`
+	Email    string    `orm:"size(64);unique"`
+	Created  time.Time `orm:"auto_now_add"`
+	Updated  time.Time `orm:"auto_now"`
 }
 
-func AddUser(u User) string {
-	if u.Email == "" || u.Password == "" || u.Username == "" {
-		return ""
+func (u *User) Insert() error {
+	if _, err := orm.NewOrm().Insert(u); err != nil {
+		return err
 	}
-	u.Uuid = generateUserUuid()
-	UserList[u.Uuid] = &u
-	return u.Uuid
+	return nil
 }
 
-func GetUser(uuid string) (u *User, err error) {
-	if u, ok := UserList[uuid]; ok {
-		return u, nil
+func (u *User) Update(fields ...string) error {
+	if _, err := orm.NewOrm().Update(u, fields...); err != nil {
+		return err
 	}
-	return nil, errors.New("User does not exist")
+	return nil
 }
 
-func GetAllUsers() map[string]*User {
-	return UserList
-}
-
-func UpdateUser(uuid string, uu *User) (a *User, err error) {
-	if u, ok := UserList[uuid]; ok {
-		if uu.Username != "" {
-			u.Username = uu.Username
-		}
-		if uu.Password != "" {
-			u.Password = uu.Password
-		}
-		return u, nil
+func (u *User) Delete() error {
+	if _, err := orm.NewOrm().Delete(u); err != nil {
+		return err
 	}
-	return nil, errors.New("User does not exist")
+	return nil
 }
 
-func Login(userCreds dtos.UserLoginDto) bool {
-	for _, u := range UserList {
-		if u.Username == userCreds.Username && u.Password == userCreds.Password {
-			return true
-		}
+func (u *User) Read(fields ...string) error {
+	if err := orm.NewOrm().Read(u, fields...); err != nil {
+		return err
 	}
-	return false
+	return nil
 }
 
-func Register(user dtos.UserRegisterDto) bool {
-	if user.Username == "" || user.Password == "" || user.Email == "" {
-		return false
+func (u *UserList) ReadAll() error {
+	qb, _ := orm.NewQueryBuilder("postgres")
+	qb.Select("*").From("user").Limit(100).Offset(0)
+	sql := qb.String()
+	if _, err := orm.NewOrm().Raw(sql).QueryRows(u); err != nil {
+		return err
 	}
-	uu := User{generateUserUuid(), user.Username, user.Password, user.Email}
-	UserList[uu.Uuid] = &uu
-	return true
-}
-
-func DeleteUser(uuid string) bool {
-	userPresent := false
-	if _, ok := UserList[uuid]; ok {
-		userPresent = true
-	}
-	delete(UserList, uuid)
-	return userPresent
-}
-
-func generateUserUuid() string {
-	uuid := uuid.New()
-	return uuid.String()
+	return nil
 }

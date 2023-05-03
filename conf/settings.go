@@ -16,6 +16,7 @@ var (
 	Profile    string
 	AppVersion string
 	DebugOrm   bool
+	AppCache   cache.Cache
 )
 
 func LoadSettings() {
@@ -34,7 +35,7 @@ func LoadSettings() {
 	beego.BConfig.CopyRequestBody = cfg.DefaultBool("copyrequestbody", false)
 	beego.BConfig.WebConfig.DirectoryIndex = cfg.DefaultBool("directoryindex", false)
 	beego.BConfig.WebConfig.AutoRender = cfg.DefaultBool("autorender", true)
-	beego.SetStaticPath("/", "views/static")
+	beego.SetStaticPath("/", "static")
 
 	cfgSection, err := cfg.GetSection(Profile)
 	if err != nil {
@@ -87,10 +88,10 @@ func loadProfileSettings(cfgSection map[string]string) {
 	orm.RunCommand()
 	orm.RunSyncdb("default", false, DebugOrm)
 
-	appcache, err := cache.NewCache("memory", `{"interval":360}`)
+	AppCache, err := cache.NewCache("memory", `{"interval":360}`)
 	if err != nil {
 		logs.Error("Error while creating new cache:", err.Error())
 	} else {
-		logs.Info("Cache creating successfull:", appcache)
+		logs.Info("Cache creating successfull:", AppCache)
 	}
 }

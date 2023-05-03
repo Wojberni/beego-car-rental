@@ -3,6 +3,7 @@ package controllers
 import (
 	"beego-car-rental/dtos"
 	"beego-car-rental/models"
+	"beego-car-rental/services"
 	"encoding/json"
 	"fmt"
 
@@ -22,14 +23,13 @@ type UserController struct {
 // @Accept json
 // @router / [post]
 func (u *UserController) Post() {
-	var user models.User
+	user := new(models.User)
 	var message string
-	json.Unmarshal(u.Ctx.Input.RequestBody, &user)
-	uid := models.AddUser(user)
-	if uid == "" {
-		message = "Error creating user!"
+	json.Unmarshal(u.Ctx.Input.RequestBody, user)
+	if err := user.Insert(); err != nil {
+		message = fmt.Sprintf("Error creating user: %v", err.Error())
 	} else {
-		message = fmt.Sprintf("Created user with Uuid %s", uid)
+		message = fmt.Sprintf("Created user: %v!", user.Username)
 	}
 
 	u.Data["json"] = map[string]string{"message": message}
@@ -43,7 +43,8 @@ func (u *UserController) Post() {
 // @Accept json
 // @router / [get]
 func (u *UserController) GetAll() {
-	users := models.GetAllUsers()
+	var users models.UserList
+	users.ReadAll()
 	u.Data["json"] = users
 	u.ServeJSON()
 }
@@ -57,9 +58,9 @@ func (u *UserController) GetAll() {
 // @router /:uuid [get]
 func (u *UserController) Get() {
 	uid := u.GetString(":uuid")
+	user := &models.User{Uuid: uid}
 	if uid != "" {
-		user, err := models.GetUser(uid)
-		if err != nil {
+		if err := user.Read("Uuid"); err != nil {
 			u.Data["json"] = map[string]string{"message": err.Error()}
 		} else {
 			u.Data["json"] = user
@@ -79,13 +80,12 @@ func (u *UserController) Get() {
 func (u *UserController) Put() {
 	uid := u.GetString(":uuid")
 	if uid != "" {
-		var user models.User
-		json.Unmarshal(u.Ctx.Input.RequestBody, &user)
-		uu, err := models.UpdateUser(uid, &user)
-		if err != nil {
+		user := new(models.User)
+		json.Unmarshal(u.Ctx.Input.RequestBody, user)
+		if err := user.Update(); err != nil {
 			u.Data["json"] = map[string]string{"message": err.Error()}
 		} else {
-			u.Data["json"] = uu
+			u.Data["json"] = user
 		}
 	}
 	u.ServeJSON()
@@ -100,11 +100,14 @@ func (u *UserController) Put() {
 // @router /:uuid [delete]
 func (u *UserController) Delete() {
 	uid := u.GetString(":uuid")
+	user := &models.User{Uuid: uid}
 	var message string
-	if models.DeleteUser(uid) {
-		message = fmt.Sprintf("Deleted user: %s", uid)
-	} else {
-		message = fmt.Sprintf("User not found: %s", uid)
+	if uid != "" {
+		if err := user.Delete(); err != nil {
+			message = fmt.Sprintf("User not found error: %s", err.Error())
+		} else {
+			message = fmt.Sprintf("Deleted user: %s", uid)
+		}
 	}
 	u.Data["json"] = map[string]string{"message": message}
 	u.ServeJSON()
@@ -121,7 +124,7 @@ func (u *UserController) Login() {
 	var userLogin dtos.UserLoginDto
 	var message string
 	json.Unmarshal(u.Ctx.Input.RequestBody, &userLogin)
-	if models.Login(userLogin) {
+	if services.LoginUser(userLogin) {
 		message = fmt.Sprintf("Login success for user %v!", userLogin.Username)
 	} else {
 		message = "User does not exist!"
@@ -141,10 +144,10 @@ func (u *UserController) Register() {
 	var user dtos.UserRegisterDto
 	var message string
 	json.Unmarshal(u.Ctx.Input.RequestBody, &user)
-	if models.Register(user) {
+	if err := services.RegisterUser(user); err != nil {
 		message = fmt.Sprintf("Register success for user %v!", user.Username)
 	} else {
-		message = "Register failure! Fill all fields!"
+		message = fmt.Sprintf("Register failure! Error: %v", err.Error())
 	}
 	u.Data["json"] = map[string]string{"message": message}
 	u.ServeJSON()

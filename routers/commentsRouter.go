@@ -7,7 +7,7 @@ import (
 
 func init() {
 
-    beego.GlobalControllerRouter["go-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:UserController"],
+    beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"],
         beego.ControllerComments{
             Method: "Post",
             Router: `/`,
@@ -16,7 +16,7 @@ func init() {
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["go-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:UserController"],
+    beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"],
         beego.ControllerComments{
             Method: "GetAll",
             Router: `/`,
@@ -25,7 +25,7 @@ func init() {
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["go-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:UserController"],
+    beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"],
         beego.ControllerComments{
             Method: "Get",
             Router: `/:uuid`,
@@ -34,7 +34,7 @@ func init() {
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["go-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:UserController"],
+    beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"],
         beego.ControllerComments{
             Method: "Put",
             Router: `/:uuid`,
@@ -43,7 +43,7 @@ func init() {
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["go-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:UserController"],
+    beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"],
         beego.ControllerComments{
             Method: "Delete",
             Router: `/:uuid`,
@@ -52,7 +52,7 @@ func init() {
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["go-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:UserController"],
+    beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"],
         beego.ControllerComments{
             Method: "Login",
             Router: `/login`,
@@ -61,7 +61,7 @@ func init() {
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["go-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:UserController"],
+    beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"],
         beego.ControllerComments{
             Method: "Logout",
             Router: `/logout`,
@@ -70,7 +70,7 @@ func init() {
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["go-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["go-car-rental/controllers:UserController"],
+    beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"],
         beego.ControllerComments{
             Method: "Register",
             Router: `/register`,
