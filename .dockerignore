@@ -1,0 +1,6 @@
+Makefile
+*.md
+docker-compose.yaml
+.gitignore
+tests/
+database/
