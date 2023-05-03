@@ -4,10 +4,10 @@ run :
 	bee run -gendoc -downdoc
 
 docker-run :
-	docker-compose up -d
+	cd docker && docker-compose up -d && cd ..
 
 docker-stop :
-	docker-compose down -d
+	cd docker && docker-compose down -d && cd ..
 
 db-migrate-dev :
 	bee migrate -driver=postgres -conn=$(DB_DEV_URL)
