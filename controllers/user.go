@@ -15,37 +15,19 @@ type UserController struct {
 	beego.Controller
 }
 
-// @Title CreateUser
-// @Description Create user
-// @Param 	body 	body 	models.User 	true 	"Body for user content"
-// @Success 200 {string} Created user with Uuid!
-// @Failure 403 {string} Data missing, please fill all data!
-// @Accept json
-// @router / [post]
-func (u *UserController) Post() {
-	user := new(models.User)
-	var message string
-	json.Unmarshal(u.Ctx.Input.RequestBody, user)
-	if err := user.Insert(); err != nil {
-		message = fmt.Sprintf("Error creating user: %v", err.Error())
-	} else {
-		message = fmt.Sprintf("Created user: %v!", user.Username)
-	}
-
-	u.Data["json"] = map[string]string{"message": message}
-	u.ServeJSON()
-}
-
 // @Title GetAll
 // @Description Get all Users
 // @Success 200 {object} models.User
-// @Failure 404 {string} Error retrieving data, please try again later!
+// @Failure 404 {string} error: error message
 // @Accept json
 // @router / [get]
 func (u *UserController) GetAll() {
-	var users models.UserList
-	users.ReadAll()
-	u.Data["json"] = users
+	users := &models.UserList{}
+	if err := services.GetAllUsers(users); err != nil {
+		u.Data["json"] = map[string]string{"error": err.Error()}
+	} else {
+		u.Data["json"] = users
+	}
 	u.ServeJSON()
 }
 
@@ -53,18 +35,16 @@ func (u *UserController) GetAll() {
 // @Description Get user by uuid
 // @Param 	uuid 	path 	string 	true 	"The uuid of user to get"
 // @Success 200 {object} models.User
-// @Failure 403 {string} Uuid is empty!
+// @Failure 403 {string} error: error message
 // @Accept json
 // @router /:uuid [get]
 func (u *UserController) Get() {
 	uid := u.GetString(":uuid")
-	user := &models.User{Uuid: uid}
-	if uid != "" {
-		if err := user.Read("Uuid"); err != nil {
-			u.Data["json"] = map[string]string{"message": err.Error()}
-		} else {
-			u.Data["json"] = user
-		}
+	user := &models.User{}
+	if err := services.GetUser(user, uid); err != nil {
+		u.Data["json"] = map[string]string{"error": err.Error()}
+	} else {
+		u.Data["json"] = user
 	}
 	u.ServeJSON()
 }
@@ -74,19 +54,17 @@ func (u *UserController) Get() {
 // @Param 	uuid 	path 	string 			true 	"The uuid you want to update"
 // @Param	body 	body 	models.User 	true 	"Body for user content"
 // @Success 200 {object} models.User
-// @Failure 403 {string} Uuid is not int!
+// @Failure 403 {string} error: error message
 // @Accept json
 // @router /:uuid [put]
 func (u *UserController) Put() {
 	uid := u.GetString(":uuid")
-	if uid != "" {
-		user := new(models.User)
-		json.Unmarshal(u.Ctx.Input.RequestBody, user)
-		if err := user.Update(); err != nil {
-			u.Data["json"] = map[string]string{"message": err.Error()}
-		} else {
-			u.Data["json"] = user
-		}
+	user := &models.User{}
+	json.Unmarshal(u.Ctx.Input.RequestBody, user)
+	if err := services.UpdateUser(user, uid); err != nil {
+		u.Data["json"] = map[string]string{"error": err.Error()}
+	} else {
+		u.Data["json"] = user
 	}
 	u.ServeJSON()
 }
@@ -94,22 +72,17 @@ func (u *UserController) Put() {
 // @Title Delete
 // @Description delete the user
 // @Param	uuid		path 	string	true		"The uid you want to delete"
-// @Success 200 {string} Deleted user: uuid
-// @Failure 403 {string} User not found: uuid
+// @Success 200 {string} deleted user: uuid
+// @Failure 403 {string} error: error message
 // @Accept json
 // @router /:uuid [delete]
 func (u *UserController) Delete() {
 	uid := u.GetString(":uuid")
-	user := &models.User{Uuid: uid}
-	var message string
-	if uid != "" {
-		if err := user.Delete(); err != nil {
-			message = fmt.Sprintf("User not found error: %s", err.Error())
-		} else {
-			message = fmt.Sprintf("Deleted user: %s", uid)
-		}
+	if err := services.DeleteUser(uid); err != nil {
+		u.Data["json"] = map[string]string{"error": err.Error()}
+	} else {
+		u.Data["json"] = map[string]string{"message": fmt.Sprintf("Deleted user: %s", uid)}
 	}
-	u.Data["json"] = map[string]string{"message": message}
 	u.ServeJSON()
 }
 
@@ -124,7 +97,7 @@ func (u *UserController) Login() {
 	var userLogin dtos.UserLoginDto
 	var message string
 	json.Unmarshal(u.Ctx.Input.RequestBody, &userLogin)
-	if services.LoginUser(userLogin) {
+	if err := services.LoginUser(userLogin); err != nil {
 		message = fmt.Sprintf("Login success for user %v!", userLogin.Username)
 	} else {
 		message = "User does not exist!"

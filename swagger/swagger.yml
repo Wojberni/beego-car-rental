@@ -18,6 +18,115 @@ schemes:
 - HTTP
 - ' HTTPS'
 paths:
+  /car/:
+    get:
+      tags:
+      - car
+      description: |-
+        Get all Cars
+        <br>
+      operationId: CarController.GetAllCars
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Car'
+        "404":
+          description: '{string} Error retrieving data, please try again later!'
+    post:
+      tags:
+      - car
+      description: |-
+        Create Car
+        <br>
+      operationId: CarController.CreateCar
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Body for Car content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Car'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Car'
+        "403":
+          description: '{string} error: error message'
+  /car/{id}:
+    get:
+      tags:
+      - car
+      description: |-
+        Get Car by id
+        <br>
+      operationId: CarController.GetCar
+      parameters:
+      - in: path
+        name: id
+        description: The uuid of car to get
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Car'
+        "403":
+          description: :id is empty
+    put:
+      tags:
+      - car
+      description: |-
+        update the Car
+        <br>
+      operationId: CarController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for Car content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Car'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Car'
+        "403":
+          description: :id is not int
+    delete:
+      tags:
+      - car
+      description: |-
+        delete the Car
+        <br>
+      operationId: CarController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} delete success!'
+        "403":
+          description: id is empty
   /user/:
     get:
       tags:
@@ -36,30 +145,7 @@ paths:
           schema:
             $ref: '#/definitions/models.User'
         "404":
-          description: '{string} Error retrieving data, please try again later!'
-    post:
-      tags:
-      - user
-      description: |-
-        Create user
-        <br>
-      operationId: UserController.CreateUser
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - in: body
-        name: body
-        description: Body for user content
-        required: true
-        schema:
-          $ref: '#/definitions/models.User'
-      responses:
-        "200":
-          description: '{string} Created user with Uuid!'
-        "403":
-          description: '{string} Data missing, please fill all data!'
+          description: '{string} error: error message'
   /user/{uuid}:
     get:
       tags:
@@ -84,7 +170,7 @@ paths:
           schema:
             $ref: '#/definitions/models.User'
         "403":
-          description: '{string} Uuid is empty!'
+          description: '{string} error: error message'
     put:
       tags:
       - user
@@ -114,7 +200,7 @@ paths:
           schema:
             $ref: '#/definitions/models.User'
         "403":
-          description: '{string} Uuid is not int!'
+          description: '{string} error: error message'
     delete:
       tags:
       - user
@@ -134,9 +220,9 @@ paths:
         type: string
       responses:
         "200":
-          description: '{string} Deleted user: uuid'
+          description: '{string} deleted user: uuid'
         "403":
-          description: '{string} User not found: uuid'
+          description: '{string} error: error message'
   /user/login:
     post:
       tags:
@@ -219,19 +305,52 @@ definitions:
         type: string
       username:
         type: string
+  models.Car:
+    title: Car
+    type: object
+    properties:
+      Created:
+        type: string
+        format: datetime
+      Id:
+        type: integer
+        format: int64
+      Make:
+        type: string
+      Model:
+        type: string
+      RegPlate:
+        type: string
+      Updated:
+        type: string
+        format: datetime
+      Uuid:
+        type: string
   models.User:
     title: User
     type: object
     properties:
-      email:
+      Created:
         type: string
-      password:
+        format: datetime
+      Email:
         type: string
-      username:
+      Id:
+        type: integer
+        format: int64
+      Password:
         type: string
-      uuid:
+      Updated:
+        type: string
+        format: datetime
+      Username:
+        type: string
+      Uuid:
         type: string
 tags:
 - name: user
   description: |
     Operations about Users
+- name: car
+  description: |
+    CarController operations for Car

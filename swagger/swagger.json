@@ -22,6 +22,156 @@
         " HTTPS"
     ],
     "paths": {
+        "/car/": {
+            "get": {
+                "tags": [
+                    "car"
+                ],
+                "description": "Get all Cars\n\u003cbr\u003e",
+                "operationId": "CarController.GetAllCars",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Car"
+                        }
+                    },
+                    "404": {
+                        "description": "{string} Error retrieving data, please try again later!"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "car"
+                ],
+                "description": "Create Car\n\u003cbr\u003e",
+                "operationId": "CarController.CreateCar",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Body for Car content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Car"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Car"
+                        }
+                    },
+                    "403": {
+                        "description": "{string} error: error message"
+                    }
+                }
+            }
+        },
+        "/car/{id}": {
+            "get": {
+                "tags": [
+                    "car"
+                ],
+                "description": "Get Car by id\n\u003cbr\u003e",
+                "operationId": "CarController.GetCar",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The uuid of car to get",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Car"
+                        }
+                    },
+                    "403": {
+                        "description": ":id is empty"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "car"
+                ],
+                "description": "update the Car\n\u003cbr\u003e",
+                "operationId": "CarController.Put",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to update",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for Car content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Car"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Car"
+                        }
+                    },
+                    "403": {
+                        "description": ":id is not int"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "car"
+                ],
+                "description": "delete the Car\n\u003cbr\u003e",
+                "operationId": "CarController.Delete",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to delete",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{string} delete success!"
+                    },
+                    "403": {
+                        "description": "id is empty"
+                    }
+                }
+            }
+        },
         "/user/": {
             "get": {
                 "tags": [
@@ -43,39 +193,7 @@
                         }
                     },
                     "404": {
-                        "description": "{string} Error retrieving data, please try again later!"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "user"
-                ],
-                "description": "Create user\n\u003cbr\u003e",
-                "operationId": "UserController.CreateUser",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "Body for user content",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.User"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{string} Created user with Uuid!"
-                    },
-                    "403": {
-                        "description": "{string} Data missing, please fill all data!"
+                        "description": "{string} error: error message"
                     }
                 }
             }
@@ -198,7 +316,7 @@
                         }
                     },
                     "403": {
-                        "description": "{string} Uuid is empty!"
+                        "description": "{string} error: error message"
                     }
                 }
             },
@@ -240,7 +358,7 @@
                         }
                     },
                     "403": {
-                        "description": "{string} Uuid is not int!"
+                        "description": "{string} error: error message"
                     }
                 }
             },
@@ -267,10 +385,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "{string} Deleted user: uuid"
+                        "description": "{string} deleted user: uuid"
                     },
                     "403": {
-                        "description": "{string} User not found: uuid"
+                        "description": "{string} error: error message"
                     }
                 }
             }
@@ -304,20 +422,62 @@
                 }
             }
         },
+        "models.Car": {
+            "title": "Car",
+            "type": "object",
+            "properties": {
+                "Created": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "Id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Make": {
+                    "type": "string"
+                },
+                "Model": {
+                    "type": "string"
+                },
+                "RegPlate": {
+                    "type": "string"
+                },
+                "Updated": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "Uuid": {
+                    "type": "string"
+                }
+            }
+        },
         "models.User": {
             "title": "User",
             "type": "object",
             "properties": {
-                "email": {
+                "Created": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "Email": {
                     "type": "string"
                 },
-                "password": {
+                "Id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Password": {
                     "type": "string"
                 },
-                "username": {
+                "Updated": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "Username": {
                     "type": "string"
                 },
-                "uuid": {
+                "Uuid": {
                     "type": "string"
                 }
             }
@@ -327,6 +487,10 @@
         {
             "name": "user",
             "description": "Operations about Users\n"
+        },
+        {
+            "name": "car",
+            "description": "CarController operations for Car\n"
         }
     ]
 }
