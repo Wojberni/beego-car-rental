@@ -22,16 +22,15 @@ type CarController struct {
 // @Accept json
 // @router / [post]
 func (c *CarController) Post() {
-	car := new(models.Car)
-	var message string
+	car := &models.Car{}
 	json.Unmarshal(c.Ctx.Input.RequestBody, car)
-	if err := car.Insert(); err != nil {
-		message = fmt.Sprintf("Error creating car: %v", err.Error())
+	if err := services.CreateCar(car); err != nil {
+		// message := fmt.Sprintf("Error creating car: %v", err.Error())
+		c.Data["json"] = map[string]string{"error": err.Error()}
 	} else {
-		message = fmt.Sprintf("Created car: %v!", car.RegPlate)
+		message := fmt.Sprintf("Created car: %v!", car.RegPlate)
+		c.Data["json"] = map[string]string{"message": message}
 	}
-
-	c.Data["json"] = map[string]string{"message": message}
 	c.ServeJSON()
 }
 

@@ -3,9 +3,8 @@ package services
 import (
 	"beego-car-rental/dtos"
 	"beego-car-rental/models"
+	"beego-car-rental/utils"
 	"errors"
-
-	"github.com/google/uuid"
 )
 
 func GetUser(user *models.User, uuid string) error {
@@ -60,7 +59,7 @@ func RegisterUser(registerInfo dtos.UserRegisterDto) error {
 	user := &models.User{Username: registerInfo.Username,
 		Password: registerInfo.Password,
 		Email:    registerInfo.Email,
-		Uuid:     generateUserUuid(),
+		Uuid:     utils.GenerateUuid(),
 	}
 
 	return user.Insert()
@@ -68,9 +67,4 @@ func RegisterUser(registerInfo dtos.UserRegisterDto) error {
 
 func LogoutUser() error {
 	return nil
-}
-
-func generateUserUuid() string {
-	uuid := uuid.New()
-	return uuid.String()
 }
