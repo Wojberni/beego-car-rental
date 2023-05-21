@@ -1,16 +1,18 @@
 package services
 
 import (
+	"beego-car-rental/dtos"
 	"beego-car-rental/models"
-	"beego-car-rental/utils"
 	"errors"
 )
 
-func GetCar(car *models.Car, uuid string) error {
-	if uuid == "" {
-		return errors.New("uuid is empty")
+// todo: better error messages when row is not present in db
+
+func GetCar(car *models.Car, id int) error {
+	if id < 1 {
+		return errors.New("id is less than one")
 	}
-	car.Uuid = uuid
+	car.Id = id
 	if err := car.Read(); err != nil {
 		return err
 	}
@@ -24,21 +26,28 @@ func GetAllCars(cars *models.CarList) error {
 	return nil
 }
 
-func UpdateCar(car *models.Car, uuid string) error {
-	if uuid == "" {
-		return errors.New("uuid is empty")
+func UpdateCar(carDto *dtos.CarDto, id int) error {
+	if id < 1 {
+		return errors.New("id is less than one")
 	}
-	car.Uuid = uuid
-	if err := car.Read(); err != nil {
+
+	car := &models.Car{
+		Id:       id,
+		Make:     carDto.Make,
+		Model:    carDto.Model,
+		RegPlate: carDto.RegPlate,
+	}
+
+	if err := car.Update(); err != nil {
 		return err
 	}
 	return nil
 }
 
-func DeleteCar(uuid string) error {
-	car := &models.Car{Uuid: uuid}
-	if uuid == "" {
-		return errors.New("uuid is empty")
+func DeleteCar(id int) error {
+	car := &models.Car{Id: id}
+	if id < 1 {
+		return errors.New("id is less than one")
 	}
 	if err := car.Delete(); err != nil {
 		return err
@@ -46,11 +55,16 @@ func DeleteCar(uuid string) error {
 	return nil
 }
 
-func CreateCar(car *models.Car) error {
-	if car.RegPlate == "" {
+func CreateCar(carDto *dtos.CarDto) error {
+	if carDto.RegPlate == "" {
 		return errors.New("empty field, please fill it")
 	}
-	car.Uuid = utils.GenerateUuid()
+
+	car := &models.Car{
+		Make:     carDto.Make,
+		Model:    carDto.Model,
+		RegPlate: carDto.RegPlate,
+	}
 
 	return car.Insert()
 }

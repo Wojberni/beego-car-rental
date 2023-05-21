@@ -64,7 +64,7 @@ func init() {
     beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"],
         beego.ControllerComments{
             Method: "Get",
-            Router: `/:uuid`,
+            Router: `/:id`,
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -73,7 +73,7 @@ func init() {
     beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"],
         beego.ControllerComments{
             Method: "Put",
-            Router: `/:uuid`,
+            Router: `/:id`,
             AllowHTTPMethods: []string{"put"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -82,7 +82,7 @@ func init() {
     beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"],
         beego.ControllerComments{
             Method: "Delete",
-            Router: `/:uuid`,
+            Router: `/:id`,
             AllowHTTPMethods: []string{"delete"},
             MethodParams: param.Make(),
             Filters: nil,

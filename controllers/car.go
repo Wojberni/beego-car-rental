@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"beego-car-rental/dtos"
 	"beego-car-rental/models"
 	"beego-car-rental/services"
 	"encoding/json"
@@ -16,16 +17,15 @@ type CarController struct {
 
 // @Title CreateCar
 // @Description Create Car
-// @Param	body		body 	models.Car	true		"Body for Car content"
-// @Success 201 {object} models.Car
-// @Failure 403 {string} error: error message
+// @Param	body		body 	dtos.CarDto	true		"Body for Car content"
+// @Success 201 {string} message: "Created car: RegPlate"
+// @Failure 403 {string} error: "message"
 // @Accept json
 // @router / [post]
 func (c *CarController) Post() {
-	car := &models.Car{}
+	car := &dtos.CarDto{}
 	json.Unmarshal(c.Ctx.Input.RequestBody, car)
 	if err := services.CreateCar(car); err != nil {
-		// message := fmt.Sprintf("Error creating car: %v", err.Error())
 		c.Data["json"] = map[string]string{"error": err.Error()}
 	} else {
 		message := fmt.Sprintf("Created car: %v!", car.RegPlate)
@@ -36,14 +36,14 @@ func (c *CarController) Post() {
 
 // @Title GetCar
 // @Description Get Car by id
-// @Param	id		path 	string	true		"The uuid of car to get"
+// @Param	id		path 	string	true		"The id of car to get"
 // @Success 200 {object} models.Car
-// @Failure 403 :id is empty
+// @Failure 403 {string} error: "message"
 // @router /:id [get]
 func (c *CarController) Get() {
-	uid := c.GetString(":uuid")
+	id, _ := c.GetInt(":id")
 	car := &models.Car{}
-	if err := services.GetCar(car, uid); err != nil {
+	if err := services.GetCar(car, id); err != nil {
 		c.Data["json"] = map[string]string{"error": err.Error()}
 	} else {
 		c.Data["json"] = car
@@ -54,7 +54,7 @@ func (c *CarController) Get() {
 // @Title GetAllCars
 // @Description Get all Cars
 // @Success 200 {object} models.Car
-// @Failure 404 {string} Error retrieving data, please try again later!
+// @Failure 404 {string} error: "message"
 // @Accept json
 // @router / [get]
 func (c *CarController) GetAll() {
@@ -70,18 +70,19 @@ func (c *CarController) GetAll() {
 // @Title Put
 // @Description update the Car
 // @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.Car	true		"body for Car content"
-// @Success 200 {object} models.Car
-// @Failure 403 :id is not int
+// @Param	body		body 	dtos.CarDto	true		"body for Car content"
+// @Success 200 {string} message: "Updated car: id"
+// @Failure 403 {string} error: "message"
 // @router /:id [put]
 func (c *CarController) Put() {
-	uid := c.GetString(":uuid")
-	car := &models.Car{}
+	id, _ := c.GetInt(":id")
+	car := &dtos.CarDto{}
 	json.Unmarshal(c.Ctx.Input.RequestBody, car)
-	if err := services.UpdateCar(car, uid); err != nil {
+	if err := services.UpdateCar(car, id); err != nil {
 		c.Data["json"] = map[string]string{"error": err.Error()}
 	} else {
-		c.Data["json"] = car
+		message := fmt.Sprintf("Updated car: %v!", car.RegPlate)
+		c.Data["json"] = map[string]string{"message": message}
 	}
 	c.ServeJSON()
 }
@@ -89,15 +90,15 @@ func (c *CarController) Put() {
 // @Title Delete
 // @Description delete the Car
 // @Param	id		path 	string	true		"The id you want to delete"
-// @Success 200 {string} delete success!
-// @Failure 403 id is empty
+// @Success 200 {string} message: "Deleted car: id"
+// @Failure 403 {string} error: "message"
 // @router /:id [delete]
 func (c *CarController) Delete() {
-	uid := c.GetString(":uuid")
-	if err := services.DeleteCar(uid); err != nil {
+	id, _ := c.GetInt(":id")
+	if err := services.DeleteCar(id); err != nil {
 		c.Data["json"] = map[string]string{"error": err.Error()}
 	} else {
-		c.Data["json"] = map[string]string{"message": fmt.Sprintf("Deleted car: %s", uid)}
+		c.Data["json"] = map[string]string{"message": fmt.Sprintf("Deleted car: %v", id)}
 	}
 	c.ServeJSON()
 }

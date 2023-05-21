@@ -3,6 +3,9 @@ DB_DEV_URL=postgres://dev:1234@localhost/beego_car_rental_dev?sslmode=disable
 run : 
 	bee run -gendoc -downdoc
 
+update-router :
+	bee generate routers && bee generate docs
+
 docker-run :
 	cd docker && docker-compose up -d && cd ..
 
@@ -22,4 +25,4 @@ db-update-dev :
 	bee migrate refresh -driver=postgres -conn=$(DB_DEV_URL)
 
 
-.PHONY : run docker-run docker-stop db-migrate-dev db-rollback-dev db-reset-dev db-update-dev
+.PHONY : run docker-run docker-stop db-migrate-dev db-rollback-dev db-reset-dev db-update-dev update-router

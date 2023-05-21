@@ -14,7 +14,7 @@ type UserList []User
 
 type User struct {
 	Id       int
-	Uuid     string    `orm:"size(32);unique"`
+	Uuid     string    `orm:"size(36);unique"`
 	Username string    `orm:"size(32)"`
 	Password string    `orm:"size(128)"`
 	Email    string    `orm:"size(64);unique"`

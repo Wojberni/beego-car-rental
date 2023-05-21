@@ -14,7 +14,6 @@ type CarList []Car
 
 type Car struct {
 	Id       int
-	Uuid     string    `orm:"size(32);unique"`
 	Make     string    `orm:"size(32)"`
 	Model    string    `orm:"size(32)"`
 	RegPlate string    `orm:"size(12);unique"`
@@ -52,7 +51,7 @@ func (u *Car) Read(fields ...string) error {
 
 func (u *CarList) ReadAll() error {
 	qb, _ := orm.NewQueryBuilder("postgres")
-	qb.Select("*").From("user").Limit(100).Offset(0)
+	qb.Select("*").From("car").Limit(100).Offset(0)
 	sql := qb.String()
 	if _, err := orm.NewOrm().Raw(sql).QueryRows(u); err != nil {
 		return err

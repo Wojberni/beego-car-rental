@@ -5,7 +5,7 @@ type UserLoginDto struct {
 	Password string `json:"password"`
 }
 
-type UserRegisterDto struct {
+type UserDto struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 	Email    string `json:"email"`

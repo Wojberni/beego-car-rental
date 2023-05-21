@@ -34,8 +34,14 @@ func LoadSettings() {
 
 	beego.BConfig.CopyRequestBody = cfg.DefaultBool("copyrequestbody", false)
 	beego.BConfig.WebConfig.DirectoryIndex = cfg.DefaultBool("directoryindex", false)
-	beego.BConfig.WebConfig.AutoRender = cfg.DefaultBool("autorender", true)
+	beego.BConfig.WebConfig.AutoRender = cfg.DefaultBool("autorender", false)
 	beego.SetStaticPath("/", "static")
+
+	beego.BConfig.WebConfig.Session.SessionOn = cfg.DefaultBool("sessionon", false)
+	beego.BConfig.WebConfig.Session.SessionProvider = cfg.DefaultString("sessionprovider", "")
+	beego.BConfig.WebConfig.Session.SessionName = cfg.DefaultString("sessionname", "")
+	beego.BConfig.WebConfig.Session.SessionCookieLifeTime = cfg.DefaultInt("sessioncookielifetime", 0)
+	beego.BConfig.WebConfig.Session.SessionGCMaxLifetime = cfg.DefaultInt64("sessiongcmaxlifetime", 0)
 
 	cfgSection, err := cfg.GetSection(Profile)
 	if err != nil {

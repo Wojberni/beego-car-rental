@@ -18,7 +18,7 @@ type UserController struct {
 // @Title GetAll
 // @Description Get all Users
 // @Success 200 {object} models.User
-// @Failure 404 {string} error: error message
+// @Failure 404 {string} error: "message"
 // @Accept json
 // @router / [get]
 func (u *UserController) GetAll() {
@@ -32,16 +32,16 @@ func (u *UserController) GetAll() {
 }
 
 // @Title Get
-// @Description Get user by uuid
-// @Param 	uuid 	path 	string 	true 	"The uuid of user to get"
+// @Description Get user by id
+// @Param 	id 	path 	int 	true 	"The id of user to get"
 // @Success 200 {object} models.User
-// @Failure 403 {string} error: error message
+// @Failure 403 {string} error: "message"
 // @Accept json
-// @router /:uuid [get]
+// @router /:id [get]
 func (u *UserController) Get() {
-	uid := u.GetString(":uuid")
+	id, _ := u.GetInt(":id")
 	user := &models.User{}
-	if err := services.GetUser(user, uid); err != nil {
+	if err := services.GetUser(user, id); err != nil {
 		u.Data["json"] = map[string]string{"error": err.Error()}
 	} else {
 		u.Data["json"] = user
@@ -51,37 +51,39 @@ func (u *UserController) Get() {
 
 // @Title Update
 // @Description Update the user
-// @Param 	uuid 	path 	string 			true 	"The uuid you want to update"
-// @Param	body 	body 	models.User 	true 	"Body for user content"
-// @Success 200 {object} models.User
-// @Failure 403 {string} error: error message
+// @Param 	id 	path 	int 			true 	"The id you want to update"
+// @Param	body 	body 	dtos.UserDto 	true 	"Body for user content"
+// @Success 200 {string} message: "Updated user: id"
+// @Failure 403 {string} error: "message"
 // @Accept json
-// @router /:uuid [put]
+// @router /:id [put]
 func (u *UserController) Put() {
-	uid := u.GetString(":uuid")
-	user := &models.User{}
+	id, _ := u.GetInt(":id")
+	user := &dtos.UserDto{}
 	json.Unmarshal(u.Ctx.Input.RequestBody, user)
-	if err := services.UpdateUser(user, uid); err != nil {
+	if err := services.UpdateUser(user, id); err != nil {
 		u.Data["json"] = map[string]string{"error": err.Error()}
 	} else {
-		u.Data["json"] = user
+		message := fmt.Sprintf("Updated user: %v", id)
+		u.Data["json"] = map[string]string{"message": message}
 	}
 	u.ServeJSON()
 }
 
 // @Title Delete
 // @Description delete the user
-// @Param	uuid		path 	string	true		"The uid you want to delete"
-// @Success 200 {string} deleted user: uuid
-// @Failure 403 {string} error: error message
+// @Param	id		path 	int	true		"The id you want to delete"
+// @Success 200 {string} message: "Deleted user: id"
+// @Failure 403 {string} error: "message"
 // @Accept json
-// @router /:uuid [delete]
+// @router /:id [delete]
 func (u *UserController) Delete() {
-	uid := u.GetString(":uuid")
-	if err := services.DeleteUser(uid); err != nil {
+	id, _ := u.GetInt(":id")
+	if err := services.DeleteUser(id); err != nil {
 		u.Data["json"] = map[string]string{"error": err.Error()}
 	} else {
-		u.Data["json"] = map[string]string{"message": fmt.Sprintf("Deleted user: %s", uid)}
+		message := fmt.Sprintf("Deleted user: %v", id)
+		u.Data["json"] = map[string]string{"message": message}
 	}
 	u.ServeJSON()
 }
@@ -89,40 +91,40 @@ func (u *UserController) Delete() {
 // @Title Login
 // @Description Logs user into the system
 // @Param 	body 	body 	dtos.UserLoginDto 	true 	"Body of user login info"
-// @Success 200 {string} Login success!
-// @Failure 403 {string} User does not exist!
+// @Success 200 {string} message: "Login success for user: username"
+// @Failure 403 {string} error: "message"
 // @Accept json
 // @router /login [post]
 func (u *UserController) Login() {
-	var userLogin dtos.UserLoginDto
-	var message string
-	json.Unmarshal(u.Ctx.Input.RequestBody, &userLogin)
+	userLogin := &dtos.UserLoginDto{}
+	json.Unmarshal(u.Ctx.Input.RequestBody, userLogin)
 	if err := services.LoginUser(userLogin); err != nil {
-		message = fmt.Sprintf("Login success for user %v!", userLogin.Username)
+		u.Data["json"] = map[string]string{"error": err.Error()}
 	} else {
-		message = "User does not exist!"
+		message := fmt.Sprintf("Login success for user %v!", userLogin.Username)
+		u.Data["json"] = map[string]string{"message": message}
 	}
-	u.Data["json"] = map[string]string{"message": message}
+
 	u.ServeJSON()
 }
 
 // @Title Register
 // @Description Register user into the system
-// @Param 	body 	body 	dtos.UserRegisterDto 	true 	"Body of user register info"
-// @Success 200 {string} Register success!
-// @Failure 403 {string} Register failure! Fill all fields!
+// @Param 	body 	body 	dtos.UserDto 	true 	"Body of user register info"
+// @Success 200 {string} message: "Register success for user: username"
+// @Failure 403 {string} error: "message"
 // @Accept json
 // @router /register [post]
 func (u *UserController) Register() {
-	var user dtos.UserRegisterDto
-	var message string
-	json.Unmarshal(u.Ctx.Input.RequestBody, &user)
+	user := &dtos.UserDto{}
+	json.Unmarshal(u.Ctx.Input.RequestBody, user)
 	if err := services.RegisterUser(user); err != nil {
-		message = fmt.Sprintf("Register success for user %v!", user.Username)
+		u.Data["json"] = map[string]string{"error": err.Error()}
 	} else {
-		message = fmt.Sprintf("Register failure! Error: %v", err.Error())
+		message := fmt.Sprintf("Register success for user %v!", user.Username)
+		u.Data["json"] = map[string]string{"message": message}
 	}
-	u.Data["json"] = map[string]string{"message": message}
+
 	u.ServeJSON()
 }
 
