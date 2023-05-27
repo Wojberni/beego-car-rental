@@ -7,6 +7,33 @@ import (
 
 func init() {
 
+    beego.GlobalControllerRouter["beego-car-rental/controllers:AuthController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:AuthController"],
+        beego.ControllerComments{
+            Method: "Login",
+            Router: `/login`,
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["beego-car-rental/controllers:AuthController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:AuthController"],
+        beego.ControllerComments{
+            Method: "Logout",
+            Router: `/logout`,
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["beego-car-rental/controllers:AuthController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:AuthController"],
+        beego.ControllerComments{
+            Method: "Register",
+            Router: `/register`,
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["beego-car-rental/controllers:CarController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:CarController"],
         beego.ControllerComments{
             Method: "Post",
@@ -84,33 +111,6 @@ func init() {
             Method: "Delete",
             Router: `/:id`,
             AllowHTTPMethods: []string{"delete"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"],
-        beego.ControllerComments{
-            Method: "Login",
-            Router: `/login`,
-            AllowHTTPMethods: []string{"post"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"],
-        beego.ControllerComments{
-            Method: "Logout",
-            Router: `/logout`,
-            AllowHTTPMethods: []string{"post"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"] = append(beego.GlobalControllerRouter["beego-car-rental/controllers:UserController"],
-        beego.ControllerComments{
-            Method: "Register",
-            Router: `/register`,
-            AllowHTTPMethods: []string{"post"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})

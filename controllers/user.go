@@ -6,13 +6,11 @@ import (
 	"beego-car-rental/services"
 	"encoding/json"
 	"fmt"
-
-	beego "github.com/beego/beego/v2/server/web"
 )
 
 // Operations about Users
 type UserController struct {
-	beego.Controller
+	BaseController
 }
 
 // @Title GetAll
@@ -48,6 +46,8 @@ func (u *UserController) Get() {
 	}
 	u.ServeJSON()
 }
+
+// todo: add post to user for role testing
 
 // @Title Update
 // @Description Update the user
@@ -85,55 +85,5 @@ func (u *UserController) Delete() {
 		message := fmt.Sprintf("Deleted user: %v", id)
 		u.Data["json"] = map[string]string{"message": message}
 	}
-	u.ServeJSON()
-}
-
-// @Title Login
-// @Description Logs user into the system
-// @Param 	body 	body 	dtos.UserLoginDto 	true 	"Body of user login info"
-// @Success 200 {string} message: "Login success for user: username"
-// @Failure 403 {string} error: "message"
-// @Accept json
-// @router /login [post]
-func (u *UserController) Login() {
-	userLogin := &dtos.UserLoginDto{}
-	json.Unmarshal(u.Ctx.Input.RequestBody, userLogin)
-	if err := services.LoginUser(userLogin); err != nil {
-		u.Data["json"] = map[string]string{"error": err.Error()}
-	} else {
-		message := fmt.Sprintf("Login success for user %v!", userLogin.Username)
-		u.Data["json"] = map[string]string{"message": message}
-	}
-
-	u.ServeJSON()
-}
-
-// @Title Register
-// @Description Register user into the system
-// @Param 	body 	body 	dtos.UserDto 	true 	"Body of user register info"
-// @Success 200 {string} message: "Register success for user: username"
-// @Failure 403 {string} error: "message"
-// @Accept json
-// @router /register [post]
-func (u *UserController) Register() {
-	user := &dtos.UserDto{}
-	json.Unmarshal(u.Ctx.Input.RequestBody, user)
-	if err := services.RegisterUser(user); err != nil {
-		u.Data["json"] = map[string]string{"error": err.Error()}
-	} else {
-		message := fmt.Sprintf("Register success for user %v!", user.Username)
-		u.Data["json"] = map[string]string{"message": message}
-	}
-
-	u.ServeJSON()
-}
-
-// @Title Logout
-// @Description Logs out current logged in user session
-// @Success 200 {string} Logout success!
-// @Accept json
-// @router /logout [post]
-func (u *UserController) Logout() {
-	u.Data["json"] = map[string]string{"message": "Logout success!"}
 	u.ServeJSON()
 }

@@ -22,6 +22,94 @@
         " HTTPS"
     ],
     "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "description": "Logs user into the system\n\u003cbr\u003e",
+                "operationId": "AuthController.Login",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Body of user login info",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.UserLoginDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{string} message: \"Login success for user: username\""
+                    },
+                    "403": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "description": "Logs out current logged in user session\n\u003cbr\u003e",
+                "operationId": "AuthController.Logout",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{string} Logout success!"
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "description": "Register user into the system\n\u003cbr\u003e",
+                "operationId": "AuthController.Register",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Body of user register info",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.UserDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{string} message: \"Register success for user: username\""
+                    },
+                    "403": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            }
+        },
         "/car/": {
             "get": {
                 "tags": [
@@ -187,94 +275,6 @@
                         }
                     },
                     "404": {
-                        "description": "{string} error: \"message\""
-                    }
-                }
-            }
-        },
-        "/user/login": {
-            "post": {
-                "tags": [
-                    "user"
-                ],
-                "description": "Logs user into the system\n\u003cbr\u003e",
-                "operationId": "UserController.Login",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "Body of user login info",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dtos.UserLoginDto"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{string} message: \"Login success for user: username\""
-                    },
-                    "403": {
-                        "description": "{string} error: \"message\""
-                    }
-                }
-            }
-        },
-        "/user/logout": {
-            "post": {
-                "tags": [
-                    "user"
-                ],
-                "description": "Logs out current logged in user session\n\u003cbr\u003e",
-                "operationId": "UserController.Logout",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{string} Logout success!"
-                    }
-                }
-            }
-        },
-        "/user/register": {
-            "post": {
-                "tags": [
-                    "user"
-                ],
-                "description": "Register user into the system\n\u003cbr\u003e",
-                "operationId": "UserController.Register",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "Body of user register info",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dtos.UserDto"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{string} message: \"Register success for user: username\""
-                    },
-                    "403": {
                         "description": "{string} error: \"message\""
                     }
                 }

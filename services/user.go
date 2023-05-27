@@ -58,21 +58,20 @@ func DeleteUser(id int) error {
 	return nil
 }
 
-func LoginUser(userInfo *dtos.UserLoginDto) error {
+func LoginUser(userInfo *dtos.UserLoginDto) (string, error) {
 	if userInfo.Username == "" || userInfo.Password == "" {
-		return errors.New("empty field, please fill it")
+		return "", errors.New("empty field, please fill it")
 	}
 
 	user := &models.User{Username: userInfo.Username}
 	if err := user.Read("username"); err != nil {
-		return err
+		return "", err
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userInfo.Password)); err != nil {
-		return err
+		return "", err
 	}
-	// set session
-	return nil
+	return user.Uuid, nil
 }
 
 func RegisterUser(registerInfo *dtos.UserDto) error {

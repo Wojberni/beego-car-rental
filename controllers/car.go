@@ -6,13 +6,11 @@ import (
 	"beego-car-rental/services"
 	"encoding/json"
 	"fmt"
-
-	beego "github.com/beego/beego/v2/server/web"
 )
 
 // CarController operations for Car
 type CarController struct {
-	beego.Controller
+	BaseController
 }
 
 // @Title CreateCar

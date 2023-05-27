@@ -24,6 +24,11 @@ func init() {
 				&controllers.UserController{},
 			),
 		),
+		beego.NSNamespace("/auth",
+			beego.NSInclude(
+				&controllers.AuthController{},
+			),
+		),
 		beego.NSNamespace("/car",
 			beego.NSInclude(
 				&controllers.CarController{},
