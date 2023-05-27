@@ -3,10 +3,7 @@ package services
 import (
 	"beego-car-rental/dtos"
 	"beego-car-rental/models"
-	"beego-car-rental/utils"
 	"errors"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 // todo: better error messages
@@ -55,46 +52,5 @@ func DeleteUser(id int) error {
 	if err := user.Delete(); err != nil {
 		return err
 	}
-	return nil
-}
-
-func LoginUser(userInfo *dtos.UserLoginDto) (string, error) {
-	if userInfo.Username == "" || userInfo.Password == "" {
-		return "", errors.New("empty field, please fill it")
-	}
-
-	user := &models.User{Username: userInfo.Username}
-	if err := user.Read("username"); err != nil {
-		return "", err
-	}
-
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userInfo.Password)); err != nil {
-		return "", err
-	}
-	return user.Uuid, nil
-}
-
-func RegisterUser(registerInfo *dtos.UserDto) error {
-	if registerInfo.Username == "" || registerInfo.Password == "" || registerInfo.Email == "" {
-		return errors.New("empty field, please fill it")
-	}
-
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(registerInfo.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return err
-	}
-
-	// todo: check regex for email and username
-	user := &models.User{Username: registerInfo.Username,
-		Password: string(hashedPassword),
-		Email:    registerInfo.Email,
-		Uuid:     utils.GenerateUuid(),
-	}
-
-	return user.Insert()
-}
-
-func LogoutUser() error {
-	// remove session
 	return nil
 }
