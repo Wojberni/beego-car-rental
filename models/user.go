@@ -18,6 +18,7 @@ type User struct {
 	Username string    `orm:"size(32)"`
 	Password string    `orm:"size(128)"`
 	Email    string    `orm:"size(64);unique"`
+	Roles    []*Role   `orm:"rel(m2m)"`
 	Created  time.Time `orm:"auto_now_add"`
 	Updated  time.Time `orm:"auto_now"`
 }

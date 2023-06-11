@@ -21,39 +21,39 @@ type Car struct {
 	Updated  time.Time `orm:"auto_now"`
 }
 
-func (u *Car) Insert() error {
-	if _, err := orm.NewOrm().Insert(u); err != nil {
+func (c *Car) Insert() error {
+	if _, err := orm.NewOrm().Insert(c); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (u *Car) Update(fields ...string) error {
-	if _, err := orm.NewOrm().Update(u, fields...); err != nil {
+func (c *Car) Update(fields ...string) error {
+	if _, err := orm.NewOrm().Update(c, fields...); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (u *Car) Delete() error {
-	if _, err := orm.NewOrm().Delete(u); err != nil {
+func (c *Car) Delete() error {
+	if _, err := orm.NewOrm().Delete(c); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (u *Car) Read(fields ...string) error {
-	if err := orm.NewOrm().Read(u, fields...); err != nil {
+func (c *Car) Read(fields ...string) error {
+	if err := orm.NewOrm().Read(c, fields...); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (u *CarList) ReadAll() error {
+func (c *CarList) ReadAll() error {
 	qb, _ := orm.NewQueryBuilder("postgres")
 	qb.Select("*").From("car").Limit(100).Offset(0)
 	sql := qb.String()
-	if _, err := orm.NewOrm().Raw(sql).QueryRows(u); err != nil {
+	if _, err := orm.NewOrm().Raw(sql).QueryRows(c); err != nil {
 		return err
 	}
 	return nil

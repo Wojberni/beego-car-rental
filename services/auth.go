@@ -27,15 +27,17 @@ func LoginUser(userInfo *dtos.UserLoginDto) (string, error) {
 	return user.Uuid, nil
 }
 
-func RegisterUser(registerInfo *dtos.UserDto) error {
+func RegisterUser(registerInfo *dtos.UserRegisterDto) error {
 	if err := validateRegisterData(registerInfo); err != nil {
 		return err
 	}
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(registerInfo.Password), bcrypt.DefaultCost)
+	hashedPassword, err := utils.GeneratePassword(registerInfo.Password)
 	if err != nil {
 		return err
 	}
+
+	// user already exists?
 
 	user := &models.User{
 		Username: registerInfo.Username,
@@ -51,7 +53,7 @@ func LogoutUser() error {
 	return nil
 }
 
-func validateRegisterData(registerInfo *dtos.UserDto) error {
+func validateRegisterData(registerInfo *dtos.UserRegisterDto) error {
 	if registerInfo.Username == "" || registerInfo.Password == "" || registerInfo.Email == "" {
 		return errors.New("empty field, please fill it")
 	}

@@ -34,6 +34,16 @@ func init() {
 				&controllers.CarController{},
 			),
 		),
+		beego.NSNamespace("/role",
+			beego.NSInclude(
+				&controllers.RoleController{},
+			),
+		),
+		beego.NSNamespace("/privilege",
+			beego.NSInclude(
+				&controllers.PrivilegeController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

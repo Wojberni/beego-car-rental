@@ -43,7 +43,7 @@ func (u *AuthController) Login() {
 // @Accept json
 // @router /register [post]
 func (u *AuthController) Register() {
-	user := &dtos.UserDto{}
+	user := &dtos.UserRegisterDto{}
 	json.Unmarshal(u.Ctx.Input.RequestBody, user)
 	if err := services.RegisterUser(user); err != nil {
 		u.Data["json"] = map[string]string{"error": err.Error()}

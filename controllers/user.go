@@ -47,7 +47,24 @@ func (u *UserController) Get() {
 	u.ServeJSON()
 }
 
-// todo: add post to user for role testing
+// @Title CreateUser
+// @Description Create User
+// @Param	body		body 	dtos.UserDto	true		"Body for User content"
+// @Success 201 {string} message: "Created user: Username"
+// @Failure 403 {string} error: "message"
+// @Accept json
+// @router / [post]
+func (u *UserController) Post() {
+	user := &dtos.UserDto{}
+	json.Unmarshal(u.Ctx.Input.RequestBody, user)
+	if err := services.CreateUser(user); err != nil {
+		u.Data["json"] = map[string]string{"error": err.Error()}
+	} else {
+		message := fmt.Sprintf("Created user: %v!", user.Username)
+		u.Data["json"] = map[string]string{"message": message}
+	}
+	u.ServeJSON()
+}
 
 // @Title Update
 // @Description Update the user

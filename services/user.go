@@ -3,6 +3,7 @@ package services
 import (
 	"beego-car-rental/dtos"
 	"beego-car-rental/models"
+	"beego-car-rental/utils"
 	"errors"
 )
 
@@ -35,9 +36,15 @@ func UpdateUser(userDto *dtos.UserDto, id int) error {
 	if err := user.Read(); err != nil {
 		return err
 	}
+
+	hashedPassword, err := utils.GeneratePassword(userDto.Password)
+	if err != nil {
+		return err
+	}
+
 	user.Email = userDto.Email
 	user.Username = userDto.Username
-	user.Password = userDto.Password
+	user.Password = hashedPassword
 	if err := user.Update(); err != nil {
 		return err
 	}
@@ -53,4 +60,21 @@ func DeleteUser(id int) error {
 		return err
 	}
 	return nil
+}
+
+func CreateUser(userDto *dtos.UserDto) error {
+	hashedPassword, err := utils.GeneratePassword(userDto.Password)
+	if err != nil {
+		return err
+	}
+
+	user := &models.User{
+		Uuid:     utils.GenerateUuid(),
+		Username: userDto.Username,
+		Password: string(hashedPassword),
+		Email:    userDto.Email,
+		// Roles: ,
+	}
+
+	return user.Insert()
 }

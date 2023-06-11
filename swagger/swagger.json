@@ -254,6 +254,336 @@
                 }
             }
         },
+        "/privilege/": {
+            "get": {
+                "tags": [
+                    "privilege"
+                ],
+                "description": "Get all Privileges\n\u003cbr\u003e",
+                "operationId": "PrivilegeController.GetAll",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Privilege"
+                        }
+                    },
+                    "404": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "privilege"
+                ],
+                "description": "Create Privilege\n\u003cbr\u003e",
+                "operationId": "PrivilegeController.CreatePrivilege",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Body for Privilege content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.PrivilegeDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "{string} message: \"Created privilege: Name\""
+                    },
+                    "403": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            }
+        },
+        "/privilege/{id}": {
+            "get": {
+                "tags": [
+                    "privilege"
+                ],
+                "description": "Get privilege by id\n\u003cbr\u003e",
+                "operationId": "PrivilegeController.Get",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id of privilege to get",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Privilege"
+                        }
+                    },
+                    "403": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "privilege"
+                ],
+                "description": "Update the privilege\n\u003cbr\u003e",
+                "operationId": "PrivilegeController.Update",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to update",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Body for privilege content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.PrivilegeDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{string} message: \"Updated privilege: id\""
+                    },
+                    "403": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "privilege"
+                ],
+                "description": "delete the privilege\n\u003cbr\u003e",
+                "operationId": "PrivilegeController.Delete",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to delete",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{string} message: \"Deleted privilege: id\""
+                    },
+                    "403": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            }
+        },
+        "/role/": {
+            "get": {
+                "tags": [
+                    "role"
+                ],
+                "description": "Get all Roles\n\u003cbr\u003e",
+                "operationId": "RoleController.GetAll",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Role"
+                        }
+                    },
+                    "404": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "role"
+                ],
+                "description": "Create Role\n\u003cbr\u003e",
+                "operationId": "RoleController.CreateRole",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Body for Role content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.RoleDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "{string} message: \"Created role: Name\""
+                    },
+                    "403": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            }
+        },
+        "/role/{id}": {
+            "get": {
+                "tags": [
+                    "role"
+                ],
+                "description": "Get role by id\n\u003cbr\u003e",
+                "operationId": "RoleController.Get",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id of role to get",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Role"
+                        }
+                    },
+                    "403": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "role"
+                ],
+                "description": "Update the role\n\u003cbr\u003e",
+                "operationId": "RoleController.Update",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to update",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Body for role content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.RoleDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{string} message: \"Updated role: id\""
+                    },
+                    "403": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "role"
+                ],
+                "description": "delete the role\n\u003cbr\u003e",
+                "operationId": "RoleController.Delete",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to delete",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{string} message: \"Deleted role: id\""
+                    },
+                    "403": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            }
+        },
         "/user/": {
             "get": {
                 "tags": [
@@ -275,6 +605,38 @@
                         }
                     },
                     "404": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "description": "Create User\n\u003cbr\u003e",
+                "operationId": "UserController.CreateUser",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Body for User content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.UserDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "{string} message: \"Created user: Username\""
+                    },
+                    "403": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -404,6 +766,27 @@
                 }
             }
         },
+        "dtos.PrivilegeDto": {
+            "title": "PrivilegeDto",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dtos.RoleDto": {
+            "title": "RoleDto",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "privilege": {
+                    "type": "string"
+                }
+            }
+        },
         "dtos.UserDto": {
             "title": "UserDto",
             "type": "object",
@@ -412,6 +795,9 @@
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                },
+                "roles": {
                     "type": "string"
                 },
                 "username": {
@@ -458,6 +844,66 @@
                 }
             }
         },
+        "models.Privilege": {
+            "title": "Privilege",
+            "type": "object",
+            "properties": {
+                "Created": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "Id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "Roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Role"
+                    }
+                },
+                "Updated": {
+                    "type": "string",
+                    "format": "datetime"
+                }
+            }
+        },
+        "models.Role": {
+            "title": "Role",
+            "type": "object",
+            "properties": {
+                "Created": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "Id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "Privileges": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Privilege"
+                    }
+                },
+                "Updated": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "Users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.User"
+                    }
+                }
+            }
+        },
         "models.User": {
             "title": "User",
             "type": "object",
@@ -475,6 +921,12 @@
                 },
                 "Password": {
                     "type": "string"
+                },
+                "Roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Role"
+                    }
                 },
                 "Updated": {
                     "type": "string",
@@ -497,6 +949,14 @@
         {
             "name": "car",
             "description": "CarController operations for Car\n"
+        },
+        {
+            "name": "role",
+            "description": "Operations about Users\n"
+        },
+        {
+            "name": "privilege",
+            "description": "Operations about Users\n"
         }
     ]
 }
