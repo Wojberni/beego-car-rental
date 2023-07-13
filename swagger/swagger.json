@@ -254,6 +254,150 @@
                 }
             }
         },
+        "/order/": {
+            "get": {
+                "tags": [
+                    "order"
+                ],
+                "description": "Get all Orders\n\u003cbr\u003e",
+                "operationId": "OrderController.GetAllOrders",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Order"
+                        }
+                    },
+                    "404": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "order"
+                ],
+                "description": "Create Order\n\u003cbr\u003e",
+                "operationId": "OrderController.CreateOrder",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Body for Order content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.OrderDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "{string} message: \"Created order!\""
+                    },
+                    "403": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            }
+        },
+        "/order/{id}": {
+            "get": {
+                "tags": [
+                    "order"
+                ],
+                "description": "Get Order by id\n\u003cbr\u003e",
+                "operationId": "OrderController.GetOrder",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id of order to get",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Order"
+                        }
+                    },
+                    "403": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "order"
+                ],
+                "description": "update the Order\n\u003cbr\u003e",
+                "operationId": "OrderController.Put",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to update",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for Order content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.OrderDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{string} message: \"Updated order: id\""
+                    },
+                    "403": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "order"
+                ],
+                "description": "delete the Order\n\u003cbr\u003e",
+                "operationId": "OrderController.Delete",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to delete",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{string} message: \"Deleted order: id\""
+                    },
+                    "403": {
+                        "description": "{string} error: \"message\""
+                    }
+                }
+            }
+        },
         "/privilege/": {
             "get": {
                 "tags": [
@@ -766,6 +910,18 @@
                 }
             }
         },
+        "dtos.OrderDto": {
+            "title": "OrderDto",
+            "type": "object",
+            "properties": {
+                "cars": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "string"
+                }
+            }
+        },
         "dtos.PrivilegeDto": {
             "title": "PrivilegeDto",
             "type": "object",
@@ -835,12 +991,42 @@
                 "Model": {
                     "type": "string"
                 },
+                "Orders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Order"
+                    }
+                },
                 "RegPlate": {
                     "type": "string"
                 },
                 "Updated": {
                     "type": "string",
                     "format": "datetime"
+                }
+            }
+        },
+        "models.Order": {
+            "title": "Order",
+            "type": "object",
+            "properties": {
+                "Cars": {
+                    "$ref": "#/definitions/models.Car"
+                },
+                "Created": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "Id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Updated": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "Users": {
+                    "$ref": "#/definitions/models.User"
                 }
             }
         },
@@ -919,6 +1105,12 @@
                     "type": "integer",
                     "format": "int64"
                 },
+                "Orders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Order"
+                    }
+                },
                 "Password": {
                     "type": "string"
                 },
@@ -957,6 +1149,10 @@
         {
             "name": "privilege",
             "description": "Operations about Users\n"
+        },
+        {
+            "name": "order",
+            "description": "OrderController operations for Car\n"
         }
     ]
 }

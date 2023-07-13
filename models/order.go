@@ -16,6 +16,8 @@ type OrderList []Order
 
 type Order struct {
 	Id      int
+	Cars    *Car      `orm:"rel(fk)"`
+	Users   *User     `orm:"rel(fk)"`
 	Created time.Time `orm:"auto_now_add"`
 	Updated time.Time `orm:"auto_now"`
 }

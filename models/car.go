@@ -17,6 +17,7 @@ type Car struct {
 	Make     string    `orm:"size(32)"`
 	Model    string    `orm:"size(32)"`
 	RegPlate string    `orm:"size(12);unique"`
+	Orders   []*Order  `orm:"reverse(many)"`
 	Created  time.Time `orm:"auto_now_add"`
 	Updated  time.Time `orm:"auto_now"`
 }
