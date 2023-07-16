@@ -13,7 +13,7 @@ func init() {
 type CarList []Car
 
 type Car struct {
-	Id       int
+	Id       int       `orm:"auto;pk;column(id)"`
 	Make     string    `orm:"size(32)"`
 	Model    string    `orm:"size(32)"`
 	RegPlate string    `orm:"size(12);unique"`

@@ -13,8 +13,10 @@ type BaseController struct {
 func (b *BaseController) Prepare() {
 	session := b.GetSession("login")
 	if session == nil {
+		b.Ctx.Output.SetStatus(401)
 		b.Data["json"] = map[string]string{"error": "Unauthenticated, please log in!"}
 		b.ServeJSON()
 		return
 	}
+	// todo: add 403 forbidden code
 }

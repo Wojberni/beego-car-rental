@@ -73,7 +73,7 @@ func CreateUser(userDto *dtos.UserDto) error {
 		Username: userDto.Username,
 		Password: string(hashedPassword),
 		Email:    userDto.Email,
-		// Roles: ,
+		// todo: Roles: ,
 	}
 
 	return user.Insert()

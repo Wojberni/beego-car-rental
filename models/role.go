@@ -1,9 +1,11 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/beego/beego/v2/adapter/orm"
+	"github.com/beego/beego/v2/core/logs"
 )
 
 func init() {
@@ -12,13 +14,11 @@ func init() {
 
 type RoleList []Role
 
-// relation many to many to user, many to many to privilege
-
 type Role struct {
-	Id         int
+	Id         int          `orm:"auto;pk;column(id)"`
 	Name       string       `orm:"size(32)"`
-	Users      []*User      `orm:"reverse(many)"`
-	Privileges []*Privilege `orm:"rel(m2m)"`
+	Users      []*User      `orm:"reverse(many);rel_table(user_role)"`
+	Privileges []*Privilege `orm:"rel(m2m);rel_table(role_privilege)"`
 	Created    time.Time    `orm:"auto_now_add"`
 	Updated    time.Time    `orm:"auto_now"`
 }
@@ -53,10 +53,17 @@ func (r *Role) Read(fields ...string) error {
 
 func (r *RoleList) ReadAll() error {
 	qb, _ := orm.NewQueryBuilder("postgres")
-	qb.Select("*").From("role").Limit(100).Offset(0)
+	// todo: fix select for role
+	qb.Select("*").
+		From("role").
+		InnerJoin("role_privilege").On("role.id = role_privilege.role_id").
+		InnerJoin("privilege").On("privilege.id = role_privilege.privilege_id").
+		Limit(100).
+		Offset(0)
 	sql := qb.String()
 	if _, err := orm.NewOrm().Raw(sql).QueryRows(r); err != nil {
 		return err
 	}
+	logs.Info(fmt.Sprintf("%v", r))
 	return nil
 }

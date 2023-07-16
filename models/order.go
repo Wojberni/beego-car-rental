@@ -15,9 +15,9 @@ type OrderList []Order
 // relation one to many to user, one to many to car
 
 type Order struct {
-	Id      int
-	Cars    *Car      `orm:"rel(fk)"`
-	Users   *User     `orm:"rel(fk)"`
+	Id      int       `orm:"auto;pk;column(id)"`
+	Car     *Car      `orm:"null;rel(fk)"`
+	User    *User     `orm:"null;rel(fk)"`
 	Created time.Time `orm:"auto_now_add"`
 	Updated time.Time `orm:"auto_now"`
 }

@@ -1,6 +1,6 @@
 package dtos
 
 type RoleDto struct {
-	Name      string `json:"name"`
-	Privilege string `json:"privilege"`
+	Name           string `json:"name"`
+	PrivilegeNames string `json:"privilegenames"`
 }

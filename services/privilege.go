@@ -19,6 +19,18 @@ func GetPrivilege(privilege *models.Privilege, id int) error {
 	return nil
 }
 
+// add to controller later?
+func GetPrivilegeByName(privilege *models.Privilege, name string) error {
+	if name == "" {
+		return errors.New("name is empty")
+	}
+	privilege.Name = name
+	if err := privilege.Read("name"); err != nil {
+		return err
+	}
+	return nil
+}
+
 func GetAllPrivileges(privileges *models.PrivilegeList) error {
 	if err := privileges.ReadAll(); err != nil {
 		return err

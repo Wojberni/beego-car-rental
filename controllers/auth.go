@@ -17,7 +17,7 @@ type AuthController struct {
 // @Description Logs user into the system
 // @Param 	body 	body 	dtos.UserLoginDto 	true 	"Body of user login info"
 // @Success 200 {string} message: "Login success for user: username"
-// @Failure 403 {string} error: "message"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router /login [post]
 func (u *AuthController) Login() {
@@ -25,6 +25,7 @@ func (u *AuthController) Login() {
 	json.Unmarshal(u.Ctx.Input.RequestBody, userLogin)
 	if uuid, err := services.LoginUser(userLogin); err != nil {
 		u.Data["json"] = map[string]string{"error": err.Error()}
+		u.Ctx.Output.SetStatus(500)
 	} else {
 		params := []interface{}{uuid, userLogin.Username}
 		u.SetSession("login", params)
@@ -39,7 +40,7 @@ func (u *AuthController) Login() {
 // @Description Register user into the system
 // @Param 	body 	body 	dtos.UserDto 	true 	"Body of user register info"
 // @Success 200 {string} message: "Register success for user: username"
-// @Failure 403 {string} error: "message"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router /register [post]
 func (u *AuthController) Register() {
@@ -47,6 +48,7 @@ func (u *AuthController) Register() {
 	json.Unmarshal(u.Ctx.Input.RequestBody, user)
 	if err := services.RegisterUser(user); err != nil {
 		u.Data["json"] = map[string]string{"error": err.Error()}
+		u.Ctx.Output.SetStatus(500)
 	} else {
 		message := fmt.Sprintf("Register success for user %v!", user.Username)
 		u.Data["json"] = map[string]string{"message": message}
@@ -63,6 +65,7 @@ func (u *AuthController) Register() {
 func (u *AuthController) Logout() {
 	if err := u.DelSession("login"); err != nil {
 		u.Data["json"] = map[string]string{"error": err.Error()}
+		u.Ctx.Output.SetStatus(500)
 	} else {
 		u.Data["json"] = map[string]string{"message": "Logout success!"}
 	}

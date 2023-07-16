@@ -50,7 +50,7 @@
                     "200": {
                         "description": "{string} message: \"Login success for user: username\""
                     },
-                    "403": {
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -104,7 +104,7 @@
                     "200": {
                         "description": "{string} message: \"Register success for user: username\""
                     },
-                    "403": {
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -162,7 +162,10 @@
                     "201": {
                         "description": "{string} message: \"Created car: RegPlate\""
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -191,7 +194,10 @@
                             "$ref": "#/definitions/models.Car"
                         }
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -224,7 +230,10 @@
                     "200": {
                         "description": "{string} message: \"Updated car: id\""
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -248,7 +257,10 @@
                     "200": {
                         "description": "{string} message: \"Deleted car: id\""
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -274,7 +286,10 @@
                             "$ref": "#/definitions/models.Order"
                         }
                     },
-                    "404": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -306,7 +321,10 @@
                     "201": {
                         "description": "{string} message: \"Created order!\""
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -335,7 +353,10 @@
                             "$ref": "#/definitions/models.Order"
                         }
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -368,7 +389,10 @@
                     "200": {
                         "description": "{string} message: \"Updated order: id\""
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -392,7 +416,10 @@
                     "200": {
                         "description": "{string} message: \"Deleted order: id\""
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -450,7 +477,10 @@
                     "201": {
                         "description": "{string} message: \"Created privilege: Name\""
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -486,7 +516,10 @@
                             "$ref": "#/definitions/models.Privilege"
                         }
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -526,7 +559,10 @@
                     "200": {
                         "description": "{string} message: \"Updated privilege: id\""
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -557,7 +593,10 @@
                     "200": {
                         "description": "{string} message: \"Deleted privilege: id\""
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -615,7 +654,10 @@
                     "201": {
                         "description": "{string} message: \"Created role: Name\""
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -651,7 +693,10 @@
                             "$ref": "#/definitions/models.Role"
                         }
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -691,7 +736,10 @@
                     "200": {
                         "description": "{string} message: \"Updated role: id\""
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -722,7 +770,10 @@
                     "200": {
                         "description": "{string} message: \"Deleted role: id\""
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -780,7 +831,10 @@
                     "201": {
                         "description": "{string} message: \"Created user: Username\""
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -816,7 +870,10 @@
                             "$ref": "#/definitions/models.User"
                         }
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -856,7 +913,10 @@
                     "200": {
                         "description": "{string} message: \"Updated user: id\""
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -887,7 +947,10 @@
                     "200": {
                         "description": "{string} message: \"Deleted user: id\""
                     },
-                    "403": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -914,10 +977,10 @@
             "title": "OrderDto",
             "type": "object",
             "properties": {
-                "cars": {
+                "carid": {
                     "type": "string"
                 },
-                "users": {
+                "userid": {
                     "type": "string"
                 }
             }
@@ -938,7 +1001,7 @@
                 "name": {
                     "type": "string"
                 },
-                "privilege": {
+                "privilegenames": {
                     "type": "string"
                 }
             }
@@ -1010,7 +1073,7 @@
             "title": "Order",
             "type": "object",
             "properties": {
-                "Cars": {
+                "Car": {
                     "$ref": "#/definitions/models.Car"
                 },
                 "Created": {
@@ -1025,7 +1088,7 @@
                     "type": "string",
                     "format": "datetime"
                 },
-                "Users": {
+                "User": {
                     "$ref": "#/definitions/models.User"
                 }
             }
@@ -1144,11 +1207,11 @@
         },
         {
             "name": "role",
-            "description": "Operations about Users\n"
+            "description": "Operations about Roles\n"
         },
         {
             "name": "privilege",
-            "description": "Operations about Users\n"
+            "description": "Operations about Privileges\n"
         },
         {
             "name": "order",

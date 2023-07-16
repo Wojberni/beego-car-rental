@@ -8,7 +8,7 @@ import (
 	"fmt"
 )
 
-// Operations about Users
+// Operations about Roles
 type RoleController struct {
 	BaseController
 }
@@ -33,7 +33,8 @@ func (r *RoleController) GetAll() {
 // @Description Get role by id
 // @Param 	id 	path 	int 	true 	"The id of role to get"
 // @Success 200 {object} models.Role
-// @Failure 403 {string} error: "message"
+// @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [get]
 func (r *RoleController) Get() {
@@ -51,7 +52,8 @@ func (r *RoleController) Get() {
 // @Description Create Role
 // @Param	body		body 	dtos.RoleDto	true		"Body for Role content"
 // @Success 201 {string} message: "Created role: Name"
-// @Failure 403 {string} error: "message"
+// @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [post]
 func (u *RoleController) Post() {
@@ -71,7 +73,8 @@ func (u *RoleController) Post() {
 // @Param 	id 	path 	int 			true 	"The id you want to update"
 // @Param	body 	body 	dtos.RoleDto 	true 	"Body for role content"
 // @Success 200 {string} message: "Updated role: id"
-// @Failure 403 {string} error: "message"
+// @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [put]
 func (u *RoleController) Put() {
@@ -91,7 +94,8 @@ func (u *RoleController) Put() {
 // @Description delete the role
 // @Param	id		path 	int	true		"The id you want to delete"
 // @Success 200 {string} message: "Deleted role: id"
-// @Failure 403 {string} error: "message"
+// @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [delete]
 func (u *RoleController) Delete() {

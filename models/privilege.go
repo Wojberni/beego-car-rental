@@ -12,12 +12,10 @@ func init() {
 
 type PrivilegeList []Privilege
 
-// relation many to many to role
-
 type Privilege struct {
-	Id      int
+	Id      int       `orm:"auto;pk;column(id)"`
 	Name    string    `orm:"size(64)"`
-	Roles   []*Role   `orm:"reverse(many)"`
+	Roles   []*Role   `orm:"reverse(many);rel_table(role_privilege)"`
 	Created time.Time `orm:"auto_now_add"`
 	Updated time.Time `orm:"auto_now"`
 }

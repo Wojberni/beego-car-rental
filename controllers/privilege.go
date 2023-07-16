@@ -8,7 +8,7 @@ import (
 	"fmt"
 )
 
-// Operations about Users
+// Operations about Privileges
 type PrivilegeController struct {
 	BaseController
 }
@@ -23,6 +23,7 @@ func (p *PrivilegeController) GetAll() {
 	privileges := &models.PrivilegeList{}
 	if err := services.GetAllPrivileges(privileges); err != nil {
 		p.Data["json"] = map[string]string{"error": err.Error()}
+		p.Ctx.Output.SetStatus(500)
 	} else {
 		p.Data["json"] = privileges
 	}
@@ -33,7 +34,8 @@ func (p *PrivilegeController) GetAll() {
 // @Description Get privilege by id
 // @Param 	id 	path 	int 	true 	"The id of privilege to get"
 // @Success 200 {object} models.Privilege
-// @Failure 403 {string} error: "message"
+// @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [get]
 func (p *PrivilegeController) Get() {
@@ -41,6 +43,7 @@ func (p *PrivilegeController) Get() {
 	privilege := &models.Privilege{}
 	if err := services.GetPrivilege(privilege, id); err != nil {
 		p.Data["json"] = map[string]string{"error": err.Error()}
+		p.Ctx.Output.SetStatus(500)
 	} else {
 		p.Data["json"] = privilege
 	}
@@ -51,7 +54,8 @@ func (p *PrivilegeController) Get() {
 // @Description Create Privilege
 // @Param	body		body 	dtos.PrivilegeDto	true		"Body for Privilege content"
 // @Success 201 {string} message: "Created privilege: Name"
-// @Failure 403 {string} error: "message"
+// @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [post]
 func (p *PrivilegeController) Post() {
@@ -59,6 +63,7 @@ func (p *PrivilegeController) Post() {
 	json.Unmarshal(p.Ctx.Input.RequestBody, privilege)
 	if err := services.CreatePrivilege(privilege); err != nil {
 		p.Data["json"] = map[string]string{"error": err.Error()}
+		p.Ctx.Output.SetStatus(500)
 	} else {
 		message := fmt.Sprintf("Created privilege: %v!", privilege.Name)
 		p.Data["json"] = map[string]string{"message": message}
@@ -71,7 +76,8 @@ func (p *PrivilegeController) Post() {
 // @Param 	id 	path 	int 			true 	"The id you want to update"
 // @Param	body 	body 	dtos.PrivilegeDto 	true 	"Body for privilege content"
 // @Success 200 {string} message: "Updated privilege: id"
-// @Failure 403 {string} error: "message"
+// @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [put]
 func (p *PrivilegeController) Put() {
@@ -80,6 +86,7 @@ func (p *PrivilegeController) Put() {
 	json.Unmarshal(p.Ctx.Input.RequestBody, privilege)
 	if err := services.UpdatePrivilege(privilege, id); err != nil {
 		p.Data["json"] = map[string]string{"error": err.Error()}
+		p.Ctx.Output.SetStatus(500)
 	} else {
 		message := fmt.Sprintf("Updated privilege: %v", id)
 		p.Data["json"] = map[string]string{"message": message}
@@ -91,13 +98,15 @@ func (p *PrivilegeController) Put() {
 // @Description delete the privilege
 // @Param	id		path 	int	true		"The id you want to delete"
 // @Success 200 {string} message: "Deleted privilege: id"
-// @Failure 403 {string} error: "message"
+// @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [delete]
 func (p *PrivilegeController) Delete() {
 	id, _ := p.GetInt(":id")
 	if err := services.DeletePrivilege(id); err != nil {
 		p.Data["json"] = map[string]string{"error": err.Error()}
+		p.Ctx.Output.SetStatus(500)
 	} else {
 		message := fmt.Sprintf("Deleted privilege: %v", id)
 		p.Data["json"] = map[string]string{"message": message}

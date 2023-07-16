@@ -13,12 +13,12 @@ func init() {
 type UserList []User
 
 type User struct {
-	Id       int
+	Id       int       `orm:"auto;pk;column(id)"`
 	Uuid     string    `orm:"size(36);unique"`
 	Username string    `orm:"size(32)"`
 	Password string    `orm:"size(128)"`
 	Email    string    `orm:"size(64);unique"`
-	Roles    []*Role   `orm:"rel(m2m)"`
+	Roles    []*Role   `orm:"rel(m2m);rel_table(user_role)"`
 	Orders   []*Order  `orm:"reverse(many)"`
 	Created  time.Time `orm:"auto_now_add"`
 	Updated  time.Time `orm:"auto_now"`

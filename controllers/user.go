@@ -33,7 +33,8 @@ func (u *UserController) GetAll() {
 // @Description Get user by id
 // @Param 	id 	path 	int 	true 	"The id of user to get"
 // @Success 200 {object} models.User
-// @Failure 403 {string} error: "message"
+// @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [get]
 func (u *UserController) Get() {
@@ -51,7 +52,8 @@ func (u *UserController) Get() {
 // @Description Create User
 // @Param	body		body 	dtos.UserDto	true		"Body for User content"
 // @Success 201 {string} message: "Created user: Username"
-// @Failure 403 {string} error: "message"
+// @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [post]
 func (u *UserController) Post() {
@@ -71,7 +73,8 @@ func (u *UserController) Post() {
 // @Param 	id 	path 	int 			true 	"The id you want to update"
 // @Param	body 	body 	dtos.UserDto 	true 	"Body for user content"
 // @Success 200 {string} message: "Updated user: id"
-// @Failure 403 {string} error: "message"
+// @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [put]
 func (u *UserController) Put() {
@@ -91,7 +94,8 @@ func (u *UserController) Put() {
 // @Description delete the user
 // @Param	id		path 	int	true		"The id you want to delete"
 // @Success 200 {string} message: "Deleted user: id"
-// @Failure 403 {string} error: "message"
+// @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [delete]
 func (u *UserController) Delete() {
