@@ -16,7 +16,8 @@ type UserController struct {
 // @Title GetAll
 // @Description Get all Users
 // @Success 200 {object} models.User
-// @Failure 404 {string} error: "message"
+// @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [get]
 func (u *UserController) GetAll() {

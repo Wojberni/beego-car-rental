@@ -130,7 +130,10 @@
                             "$ref": "#/definitions/models.Car"
                         }
                     },
-                    "404": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -445,7 +448,10 @@
                             "$ref": "#/definitions/models.Privilege"
                         }
                     },
-                    "404": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -622,7 +628,10 @@
                             "$ref": "#/definitions/models.Role"
                         }
                     },
-                    "404": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }
@@ -799,7 +808,10 @@
                             "$ref": "#/definitions/models.User"
                         }
                     },
-                    "404": {
+                    "401": {
+                        "description": "{string} error: \"Unauthenticated, please log in!\""
+                    },
+                    "500": {
                         "description": "{string} error: \"message\""
                     }
                 }

@@ -3,4 +3,4 @@ Makefile
 docker-compose.yaml
 .gitignore
 tests/
-database/
+database/init/

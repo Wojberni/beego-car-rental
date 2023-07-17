@@ -56,7 +56,8 @@ func (c *CarController) Get() {
 // @Title GetAllCars
 // @Description Get all Cars
 // @Success 200 {object} models.Car
-// @Failure 404 {string} error: "message"
+// @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [get]
 func (c *CarController) GetAll() {

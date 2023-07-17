@@ -16,7 +16,8 @@ type RoleController struct {
 // @Title GetAll
 // @Description Get all Roles
 // @Success 200 {object} models.Role
-// @Failure 404 {string} error: "message"
+// @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [get]
 func (r *RoleController) GetAll() {
