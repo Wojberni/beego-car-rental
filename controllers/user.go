@@ -17,6 +17,7 @@ type UserController struct {
 // @Description Get all Users
 // @Success 200 {object} models.User
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [get]
@@ -35,6 +36,7 @@ func (u *UserController) GetAll() {
 // @Param 	id 	path 	int 	true 	"The id of user to get"
 // @Success 200 {object} models.User
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [get]
@@ -54,6 +56,7 @@ func (u *UserController) Get() {
 // @Param	body		body 	dtos.UserDto	true		"Body for User content"
 // @Success 201 {string} message: "Created user: Username"
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [post]
@@ -75,6 +78,7 @@ func (u *UserController) Post() {
 // @Param	body 	body 	dtos.UserDto 	true 	"Body for user content"
 // @Success 200 {string} message: "Updated user: id"
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [put]
@@ -96,6 +100,7 @@ func (u *UserController) Put() {
 // @Param	id		path 	int	true		"The id you want to delete"
 // @Success 200 {string} message: "Deleted user: id"
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [delete]

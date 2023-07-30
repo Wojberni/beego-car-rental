@@ -18,5 +18,13 @@ func (b *BaseController) Prepare() {
 		b.ServeJSON()
 		return
 	}
-	// todo: add 403 forbidden code
+	if params, ok := session.([]interface{}); ok {
+		// todo: check user privilege?
+		if params[2] != "USER" {
+			b.Ctx.Output.SetStatus(403)
+			b.Data["json"] = map[string]string{"error": "Unauthorized, forbidden content access!"}
+			b.ServeJSON()
+			return
+		}
+	}
 }

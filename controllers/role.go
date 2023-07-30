@@ -17,6 +17,7 @@ type RoleController struct {
 // @Description Get all Roles
 // @Success 200 {object} models.Role
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [get]
@@ -35,6 +36,7 @@ func (r *RoleController) GetAll() {
 // @Param 	id 	path 	int 	true 	"The id of role to get"
 // @Success 200 {object} models.Role
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [get]
@@ -54,6 +56,7 @@ func (r *RoleController) Get() {
 // @Param	body		body 	dtos.RoleDto	true		"Body for Role content"
 // @Success 201 {string} message: "Created role: Name"
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [post]
@@ -75,6 +78,7 @@ func (u *RoleController) Post() {
 // @Param	body 	body 	dtos.RoleDto 	true 	"Body for role content"
 // @Success 200 {string} message: "Updated role: id"
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [put]
@@ -96,6 +100,7 @@ func (u *RoleController) Put() {
 // @Param	id		path 	int	true		"The id you want to delete"
 // @Success 200 {string} message: "Deleted role: id"
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [delete]

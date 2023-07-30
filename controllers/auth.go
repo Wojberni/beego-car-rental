@@ -27,7 +27,8 @@ func (u *AuthController) Login() {
 		u.Data["json"] = map[string]string{"error": err.Error()}
 		u.Ctx.Output.SetStatus(500)
 	} else {
-		params := []interface{}{uuid, userLogin.Username}
+		// todo: add get user role
+		params := []interface{}{uuid, userLogin.Username, "USER"}
 		u.SetSession("login", params)
 
 		message := fmt.Sprintf("Login success for user %v!", userLogin.Username)

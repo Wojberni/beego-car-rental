@@ -18,6 +18,7 @@ type OrderController struct {
 // @Param	body		body 	dtos.OrderDto	true		"Body for Order content"
 // @Success 201 {string} message: "Created order!"
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [post]
@@ -39,6 +40,7 @@ func (o *OrderController) Post() {
 // @Param	id		path 	string	true		"The id of order to get"
 // @Success 200 {object} models.Order
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @router /:id [get]
 func (o *OrderController) Get() {
@@ -57,6 +59,7 @@ func (o *OrderController) Get() {
 // @Description Get all Orders
 // @Success 200 {object} models.Order
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [get]
@@ -77,6 +80,7 @@ func (o *OrderController) GetAll() {
 // @Param	body		body 	dtos.OrderDto	true		"body for Order content"
 // @Success 200 {string} message: "Updated order: id"
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @router /:id [put]
 func (o *OrderController) Put() {
@@ -98,6 +102,7 @@ func (o *OrderController) Put() {
 // @Param	id		path 	string	true		"The id you want to delete"
 // @Success 200 {string} message: "Deleted order: id"
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @router /:id [delete]
 func (o *OrderController) Delete() {

@@ -18,6 +18,7 @@ type CarController struct {
 // @Param	body		body 	dtos.CarDto	true		"Body for Car content"
 // @Success 201 {string} message: "Created car: RegPlate"
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [post]
@@ -39,6 +40,7 @@ func (c *CarController) Post() {
 // @Param	id		path 	string	true		"The id of car to get"
 // @Success 200 {object} models.Car
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @router /:id [get]
 func (c *CarController) Get() {
@@ -57,6 +59,7 @@ func (c *CarController) Get() {
 // @Description Get all Cars
 // @Success 200 {object} models.Car
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [get]
@@ -77,6 +80,7 @@ func (c *CarController) GetAll() {
 // @Param	body		body 	dtos.CarDto	true		"body for Car content"
 // @Success 200 {string} message: "Updated car: id"
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @router /:id [put]
 func (c *CarController) Put() {
@@ -98,6 +102,7 @@ func (c *CarController) Put() {
 // @Param	id		path 	string	true		"The id you want to delete"
 // @Success 200 {string} message: "Deleted car: id"
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @router /:id [delete]
 func (c *CarController) Delete() {

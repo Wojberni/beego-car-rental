@@ -17,6 +17,7 @@ type PrivilegeController struct {
 // @Description Get all Privileges
 // @Success 200 {object} models.Privilege
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [get]
@@ -36,6 +37,7 @@ func (p *PrivilegeController) GetAll() {
 // @Param 	id 	path 	int 	true 	"The id of privilege to get"
 // @Success 200 {object} models.Privilege
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [get]
@@ -56,6 +58,7 @@ func (p *PrivilegeController) Get() {
 // @Param	body		body 	dtos.PrivilegeDto	true		"Body for Privilege content"
 // @Success 201 {string} message: "Created privilege: Name"
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router / [post]
@@ -78,6 +81,7 @@ func (p *PrivilegeController) Post() {
 // @Param	body 	body 	dtos.PrivilegeDto 	true 	"Body for privilege content"
 // @Success 200 {string} message: "Updated privilege: id"
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [put]
@@ -100,6 +104,7 @@ func (p *PrivilegeController) Put() {
 // @Param	id		path 	int	true		"The id you want to delete"
 // @Success 200 {string} message: "Deleted privilege: id"
 // @Failure 401 {string} error: "Unauthenticated, please log in!"
+// @Failure 403 {string} error: "Unauthorized, forbidden content access!"
 // @Failure 500 {string} error: "message"
 // @Accept json
 // @router /:id [delete]

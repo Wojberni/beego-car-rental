@@ -37,7 +37,12 @@ func RegisterUser(registerInfo *dtos.UserRegisterDto) error {
 		return err
 	}
 
-	// user already exists?
+	userExists := &models.User{
+		Email: registerInfo.Email,
+	}
+	if err := userExists.Read("email"); err == nil {
+		return errors.New("user already exists")
+	}
 
 	user := &models.User{
 		Username: registerInfo.Username,
